@@ -50,6 +50,7 @@ public:
     void timerCallback() override;
 
 private:
+    // buttons
     TextButton playButton{ "PLAY" };
     TextButton stopButton{ "STOP" };
     TextButton loadButton{ "LOAD" };
