@@ -121,6 +121,6 @@ void MainComponent::resized()
     // update their positions.
     DBG("MainComponent::resized"); // debug line
 
-    tracksManager.setBounds(0, 0, getWidth(), getHeight() / 2);
-    playlistComponent.setBounds(0, getHeight() / 2, getWidth(), getHeight() / 2);
+    tracksManager.setBounds(0, 0, getWidth(), 2 * getHeight() / 3);
+    playlistComponent.setBounds(0, 2 * getHeight() / 3, getWidth(), getHeight() / 3);
 }

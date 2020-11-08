@@ -61,9 +61,9 @@
 			isa = PBXBuildFile;
 			fileRef = 08BAE59BF76633DAA88B5410;
 		};
-		347E6BC763C3904F3081B977 = {
+		2733A1B181B3835CF4651DDC = {
 			isa = PBXBuildFile;
-			fileRef = 2431379B0417500A9B7E5ECF;
+			fileRef = FBF2A1B4AB5395B4A6B10E69;
 		};
 		CE6F7CCA9DB6FA9393A13B14 = {
 			isa = PBXBuildFile;
@@ -96,6 +96,10 @@
 		642661429C1B8F2CFDB90DEC = {
 			isa = PBXBuildFile;
 			fileRef = 6393AC7FE2416689272767FD;
+		};
+		347E6BC763C3904F3081B977 = {
+			isa = PBXBuildFile;
+			fileRef = 2431379B0417500A9B7E5ECF;
 		};
 		619DA02AE03E478B49599B8C = {
 			isa = PBXBuildFile;
@@ -260,6 +264,13 @@
 			name = CoreAudioKit.framework;
 			path = System/Library/Frameworks/CoreAudioKit.framework;
 			sourceTree = SDKROOT;
+		};
+		30D3057F8AF9489744C28125 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = OtherLookAndFeel.h;
+			path = ../../Source/OtherLookAndFeel.h;
+			sourceTree = "SOURCE_ROOT";
 		};
 		31B70832350E93EE15FE32DE = {
 			isa = PBXFileReference;
@@ -562,6 +573,13 @@
 			path = ../../Source/Track.h;
 			sourceTree = "SOURCE_ROOT";
 		};
+		FBF2A1B4AB5395B4A6B10E69 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = OtherLookAndFeel.cpp;
+			path = ../../Source/OtherLookAndFeel.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
 		FEB4A286BA7FBC7794FA93D8 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.objcpp;
@@ -572,7 +590,8 @@
 		BDC5579C23028B329C621C2A = {
 			isa = PBXGroup;
 			children = (
-				2431379B0417500A9B7E5ECF,
+				FBF2A1B4AB5395B4A6B10E69,
+				30D3057F8AF9489744C28125,
 				3C7E737E8667DAF106B44446,
 				CCD08B6CBD65E600D8568CD4,
 				F8368D594442B38D8B7965D9,
@@ -589,6 +608,7 @@
 				C9FA1C65436AD7F001276834,
 				B6B4FA176851368C0541FD62,
 				6393AC7FE2416689272767FD,
+				2431379B0417500A9B7E5ECF,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -908,7 +928,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				347E6BC763C3904F3081B977,
+				2733A1B181B3835CF4651DDC,
 				CE6F7CCA9DB6FA9393A13B14,
 				1672DEB19D3E96F1CB8BD159,
 				730D7C1CD423997E472FD635,
@@ -917,6 +937,7 @@
 				CABA8E3CB184FD669F055932,
 				25E53C263125E39D9C5457BD,
 				642661429C1B8F2CFDB90DEC,
+				347E6BC763C3904F3081B977,
 				619DA02AE03E478B49599B8C,
 				0680733956C4105EF2DA9D39,
 				B73D911D46AD691112BD0FCB,

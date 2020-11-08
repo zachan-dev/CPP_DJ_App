@@ -45,7 +45,7 @@ public:
     std::vector<Track*> visibleTracks();
 
 private:
-    const static int TRACKS_LIMIT = 3;
+    const static int TRACKS_LIMIT = 5;
 
     AudioFormatManager formatManager;
     AudioThumbnailCache thumbCache{ 100 };

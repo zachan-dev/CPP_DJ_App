@@ -54,7 +54,7 @@ void WaveformDisplay::paint (Graphics& g)
             1.0f            // ampitude boost
         );
         g.setColour(Colours::lightgreen);
-        g.drawRect(position * getWidth(), 0, getWidth() / 20, getHeight());
+        g.drawRect(position * getWidth(), 0, getWidth() / 30, getHeight());
     }
     else {
         g.setFont(20.0f);

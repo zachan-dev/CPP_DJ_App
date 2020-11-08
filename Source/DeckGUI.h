@@ -13,6 +13,7 @@
 #include <JuceHeader.h>
 #include "DJAudioPlayer.h"
 #include "WaveformDisplay.h"
+#include "OtherLookAndFeel.h"
 
 //==============================================================================
 /*
@@ -54,12 +55,19 @@ public:
 private:
     TextButton closeButton{ "CLOSE" };
     TextButton playButton{ "PLAY" };
+    TextButton pauseButton{ "PAUSE" };
     TextButton stopButton{ "STOP" };
     TextButton loadButton{ "LOAD" };
 
     Slider volSlider;
+    Label volLabel;
     Slider speedSlider;
+    Label speedLabel;
     Slider posSlider;
+    Label posLabel;
+    OtherLookAndFeel volSliderLookAndFeel;
+    OtherLookAndFeel speedSliderLookAndFeel;
+    OtherLookAndFeel posSliderLookAndFeel;
 
     WaveformDisplay waveformDisplay;
 

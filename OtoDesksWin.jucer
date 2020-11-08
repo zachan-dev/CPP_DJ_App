@@ -3,7 +3,10 @@
 <JUCERPROJECT id="Lxtq0d" name="OtoDesks" projectType="guiapp" jucerVersion="5.4.7">
   <MAINGROUP id="qX6nG8" name="OtoDesks">
     <GROUP id="{70023AF0-FF77-C5BD-591C-2EFD2831DEEB}" name="Source">
-      <FILE id="DLi2AQ" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+      <FILE id="X9kdeU" name="OtherLookAndFeel.cpp" compile="1" resource="0"
+            file="Source/OtherLookAndFeel.cpp"/>
+      <FILE id="HRbPoa" name="OtherLookAndFeel.h" compile="0" resource="0"
+            file="Source/OtherLookAndFeel.h"/>
       <FILE id="pCsOOI" name="TracksManager.cpp" compile="1" resource="0"
             file="Source/TracksManager.cpp"/>
       <FILE id="Bv4tmo" name="TracksManager.h" compile="0" resource="0" file="Source/TracksManager.h"/>
@@ -27,6 +30,7 @@
       <FILE id="SHKvVS" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
       <FILE id="DJZQVM" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>
+      <FILE id="DLi2AQ" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>

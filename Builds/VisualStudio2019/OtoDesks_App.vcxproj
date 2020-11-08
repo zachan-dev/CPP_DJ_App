@@ -138,7 +138,7 @@
     <Lib/>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\Main.cpp"/>
+    <ClCompile Include="..\..\Source\OtherLookAndFeel.cpp"/>
     <ClCompile Include="..\..\Source\TracksManager.cpp"/>
     <ClCompile Include="..\..\Source\Track.cpp"/>
     <ClCompile Include="..\..\Source\AddDeckGUI.cpp"/>
@@ -147,6 +147,7 @@
     <ClCompile Include="..\..\Source\PlaylistComponent.cpp"/>
     <ClCompile Include="..\..\Source\WaveformDisplay.cpp"/>
     <ClCompile Include="..\..\Source\MainComponent.cpp"/>
+    <ClCompile Include="..\..\Source\Main.cpp"/>
     <ClCompile Include="..\..\..\..\..\..\..\..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -1914,6 +1915,7 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_opengl.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\OtherLookAndFeel.h"/>
     <ClInclude Include="..\..\Source\TracksManager.h"/>
     <ClInclude Include="..\..\Source\Track.h"/>
     <ClInclude Include="..\..\Source\AddDeckGUI.h"/>

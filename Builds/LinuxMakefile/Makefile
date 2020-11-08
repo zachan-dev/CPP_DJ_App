@@ -68,7 +68,7 @@ ifeq ($(CONFIG),Release)
 endif
 
 OBJECTS_APP := \
-  $(JUCE_OBJDIR)/Main_90ebc5c2.o \
+  $(JUCE_OBJDIR)/OtherLookAndFeel_7c21eed7.o \
   $(JUCE_OBJDIR)/TracksManager_48ee1ae6.o \
   $(JUCE_OBJDIR)/Track_c9ac1f2c.o \
   $(JUCE_OBJDIR)/AddDeckGUI_688bf8fa.o \
@@ -77,6 +77,7 @@ OBJECTS_APP := \
   $(JUCE_OBJDIR)/PlaylistComponent_76bc332c.o \
   $(JUCE_OBJDIR)/WaveformDisplay_c81a80a6.o \
   $(JUCE_OBJDIR)/MainComponent_a6ffb4a5.o \
+  $(JUCE_OBJDIR)/Main_90ebc5c2.o \
   $(JUCE_OBJDIR)/include_juce_audio_basics_8a4e984a.o \
   $(JUCE_OBJDIR)/include_juce_audio_devices_63111d02.o \
   $(JUCE_OBJDIR)/include_juce_audio_formats_15f82001.o \
@@ -104,9 +105,9 @@ $(JUCE_OUTDIR)/$(JUCE_TARGET_APP) : $(OBJECTS_APP) $(RESOURCES)
 	-$(V_AT)mkdir -p $(JUCE_OUTDIR)
 	$(V_AT)$(CXX) -o $(JUCE_OUTDIR)/$(JUCE_TARGET_APP) $(OBJECTS_APP) $(JUCE_LDFLAGS) $(JUCE_LDFLAGS_APP) $(RESOURCES) $(TARGET_ARCH)
 
-$(JUCE_OBJDIR)/Main_90ebc5c2.o: ../../Source/Main.cpp
+$(JUCE_OBJDIR)/OtherLookAndFeel_7c21eed7.o: ../../Source/OtherLookAndFeel.cpp
 	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
-	@echo "Compiling Main.cpp"
+	@echo "Compiling OtherLookAndFeel.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/TracksManager_48ee1ae6.o: ../../Source/TracksManager.cpp
@@ -147,6 +148,11 @@ $(JUCE_OBJDIR)/WaveformDisplay_c81a80a6.o: ../../Source/WaveformDisplay.cpp
 $(JUCE_OBJDIR)/MainComponent_a6ffb4a5.o: ../../Source/MainComponent.cpp
 	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling MainComponent.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
+
+$(JUCE_OBJDIR)/Main_90ebc5c2.o: ../../Source/Main.cpp
+	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling Main.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/include_juce_audio_basics_8a4e984a.o: ../../JuceLibraryCode/include_juce_audio_basics.cpp
