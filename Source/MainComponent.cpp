@@ -10,7 +10,6 @@
 
 //==============================================================================
 MainComponent::MainComponent()
-    : tracks{ initTracks() }
 {
     // Make sure you set the size of the component after
     // you add any child components.
@@ -29,28 +28,14 @@ MainComponent::MainComponent()
         setAudioChannels (2, 2);
     }
 
-    for (auto& track : tracks) {
-        addAndMakeVisible(track->deckGUI);
-        track->deckGUI.setVisible(false);
-        track->deckGUI.closeButton.addListener(this);
-    }
-    addAndMakeVisible(addDeck);
-
+    addAndMakeVisible(tracksManager);
     addAndMakeVisible(playlistComponent);
-
-    addDeck.addTrackButton.addListener(this);
-
-    formatManager.registerBasicFormats(); // tell fm know about the allowed formats
 }
 
 MainComponent::~MainComponent()
 {
     // This shuts down the audio device and clears the audio source.
     shutdownAudio();
-
-    for (auto& track : tracks) {
-        delete track;
-    }
 }
 
 //==============================================================================
@@ -64,18 +49,7 @@ void MainComponent::prepareToPlay (int samplesPerBlockExpected, double sampleRat
 
     // For more details, see the help for AudioProcessor::prepareToPlay()
 
-    mixerSource.prepareToPlay(
-        samplesPerBlockExpected,
-        sampleRate
-    );
-
-    for (auto& track : tracks) {
-        track->prepareToPlay(
-            samplesPerBlockExpected,
-            sampleRate
-        );
-        mixerSource.addInputSource(&track->player, false);
-    }
+    tracksManager.prepareToPlay(samplesPerBlockExpected, sampleRate);
 }
 
 void MainComponent::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill)
@@ -87,7 +61,7 @@ void MainComponent::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill
     /*player1.getNextAudioBlock(bufferToFill);
     player2.getNextAudioBlock(bufferToFill);*/
 
-    mixerSource.getNextAudioBlock(bufferToFill);
+    tracksManager.getNextAudioBlock(bufferToFill);
 }
 
 //void MainComponent::getNextAudioBlock (const AudioSourceChannelInfo& bufferToFill)
@@ -124,11 +98,7 @@ void MainComponent::releaseResources()
     // For more details, see the help for AudioProcessor::releaseResources()
     //transportSource.releaseResources();
 
-    for (auto& track : tracks) {
-        track->releaseResources();
-    }
-
-    mixerSource.releaseResources();
+    tracksManager.releaseResources();
 }
 
 //==============================================================================
@@ -151,70 +121,6 @@ void MainComponent::resized()
     // update their positions.
     DBG("MainComponent::resized"); // debug line
 
-    std::vector<Track*> VTs = visibleTracks();
-    if (VTs.size() > 0) {
-        int deckHeight = getHeight() / 2;
-        int deckWidth = (VTs.size() == tracks.size()) ? getWidth() / VTs.size() : getWidth() / (VTs.size() + 1);
-        for (int i = 0; i < VTs.size(); ++i) {
-            VTs[i]->deckGUI.setBounds(i * deckWidth, 0, deckWidth, deckHeight);
-        }
-        if (VTs.size() != tracks.size()) {
-            addDeck.setVisible(true);
-            addDeck.setBounds(VTs.size() * deckWidth, 0, deckWidth, deckHeight);
-        }
-        else addDeck.setVisible(false);
-    }
-    else {
-        addDeck.setBounds(0, 0, getWidth(), getHeight() / 2);
-    }
-
+    tracksManager.setBounds(0, 0, getWidth(), getHeight() / 2);
     playlistComponent.setBounds(0, getHeight() / 2, getWidth(), getHeight() / 2);
-}
-
-// Implement Button::Listener
-//==============================================================================
-void MainComponent::buttonClicked(Button* button) {
-    if (button == &(addDeck.addTrackButton)) {
-        addTrack();
-    }
-    for (auto& track : tracks) {
-        if (button == &(track->deckGUI.closeButton)) {
-            hideTrack(track);
-        }
-    }
-}
-
-std::vector<Track*> MainComponent::initTracks() { // call only once
-    std::vector<Track*> rtn;
-    for (int i = 0; i < TRACKS_LIMIT; ++i) {
-        rtn.push_back(new Track(formatManager, thumbCache));
-    }
-    return rtn;
-}
-
-void MainComponent::addTrack() {
-    for (auto& track : tracks) {
-        if (!track->deckGUI.isVisible()) {
-            track->deckGUI.setVisible(true);
-            break;
-        }
-    }
-    resized();
-}
-
-void MainComponent::hideTrack(Track* track) {
-    track->deckGUI.setVisible(false);
-    //reset track TODO
-    track->reset();
-    resized();
-}
-
-std::vector<Track*> MainComponent::visibleTracks() {
-    std::vector<Track*> rtn;
-    for (auto& track : tracks) {
-        if (track->deckGUI.isVisible()) {
-            rtn.push_back(track);
-        }
-    }
-    return rtn;
 }

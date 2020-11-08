@@ -61,6 +61,14 @@
 			isa = PBXBuildFile;
 			fileRef = 08BAE59BF76633DAA88B5410;
 		};
+		347E6BC763C3904F3081B977 = {
+			isa = PBXBuildFile;
+			fileRef = 2431379B0417500A9B7E5ECF;
+		};
+		CE6F7CCA9DB6FA9393A13B14 = {
+			isa = PBXBuildFile;
+			fileRef = 3C7E737E8667DAF106B44446;
+		};
 		1672DEB19D3E96F1CB8BD159 = {
 			isa = PBXBuildFile;
 			fileRef = 9F65A15C5352D57612353C29;
@@ -88,10 +96,6 @@
 		642661429C1B8F2CFDB90DEC = {
 			isa = PBXBuildFile;
 			fileRef = 6393AC7FE2416689272767FD;
-		};
-		347E6BC763C3904F3081B977 = {
-			isa = PBXBuildFile;
-			fileRef = 2431379B0417500A9B7E5ECF;
 		};
 		619DA02AE03E478B49599B8C = {
 			isa = PBXBuildFile;
@@ -276,6 +280,13 @@
 			lastKnownFileType = sourcecode.cpp.objcpp;
 			name = "include_juce_audio_processors.mm";
 			path = "../../JuceLibraryCode/include_juce_audio_processors.mm";
+			sourceTree = "SOURCE_ROOT";
+		};
+		3C7E737E8667DAF106B44446 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = TracksManager.cpp;
+			path = ../../Source/TracksManager.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
 		3DA5DA5444DAB2C284BDF8EC = {
@@ -467,6 +478,13 @@
 			path = "~/JUCE/modules/juce_audio_basics";
 			sourceTree = "<absolute>";
 		};
+		CCD08B6CBD65E600D8568CD4 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = TracksManager.h;
+			path = ../../Source/TracksManager.h;
+			sourceTree = "SOURCE_ROOT";
+		};
 		CDC07DA8703A367E7FFC0439 = {
 			isa = PBXFileReference;
 			lastKnownFileType = file;
@@ -554,6 +572,9 @@
 		BDC5579C23028B329C621C2A = {
 			isa = PBXGroup;
 			children = (
+				2431379B0417500A9B7E5ECF,
+				3C7E737E8667DAF106B44446,
+				CCD08B6CBD65E600D8568CD4,
 				F8368D594442B38D8B7965D9,
 				9F65A15C5352D57612353C29,
 				09764A81951421EB14F10CD0,
@@ -568,7 +589,6 @@
 				C9FA1C65436AD7F001276834,
 				B6B4FA176851368C0541FD62,
 				6393AC7FE2416689272767FD,
-				2431379B0417500A9B7E5ECF,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -888,6 +908,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				347E6BC763C3904F3081B977,
+				CE6F7CCA9DB6FA9393A13B14,
 				1672DEB19D3E96F1CB8BD159,
 				730D7C1CD423997E472FD635,
 				D488D887E4C0B1A33195B134,
@@ -895,7 +917,6 @@
 				CABA8E3CB184FD669F055932,
 				25E53C263125E39D9C5457BD,
 				642661429C1B8F2CFDB90DEC,
-				347E6BC763C3904F3081B977,
 				619DA02AE03E478B49599B8C,
 				0680733956C4105EF2DA9D39,
 				B73D911D46AD691112BD0FCB,

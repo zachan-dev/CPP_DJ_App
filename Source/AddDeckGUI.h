@@ -24,7 +24,7 @@ public:
     void paint (Graphics&) override;
     void resized() override;
     
-    friend class MainComponent;
+    friend class TracksManager;
 
 private:
     TextButton addTrackButton{ "ADD A TRACK" };

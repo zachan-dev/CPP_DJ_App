@@ -32,5 +32,5 @@ private:
     DJAudioPlayer player;
     DeckGUI deckGUI;
 
-    friend class MainComponent;
+    friend class TracksManager;
 };

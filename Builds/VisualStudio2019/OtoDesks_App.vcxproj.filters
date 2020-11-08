@@ -412,6 +412,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\Main.cpp">
+      <Filter>OtoDesks\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\TracksManager.cpp">
+      <Filter>OtoDesks\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\Track.cpp">
       <Filter>OtoDesks\Source</Filter>
     </ClCompile>
@@ -431,9 +437,6 @@
       <Filter>OtoDesks\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\MainComponent.cpp">
-      <Filter>OtoDesks\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Main.cpp">
       <Filter>OtoDesks\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\..\..\..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.cpp">
@@ -2346,6 +2349,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\TracksManager.h">
+      <Filter>OtoDesks\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\Track.h">
       <Filter>OtoDesks\Source</Filter>
     </ClInclude>
