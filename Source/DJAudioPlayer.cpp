@@ -42,7 +42,7 @@ void DJAudioPlayer::releaseResources()
     resampleSource.releaseResources();
 }
 
-void DJAudioPlayer::loadURL(URL audioURL) {
+bool DJAudioPlayer::loadURL(URL audioURL) {
     auto* reader = formatManager.createReaderFor(audioURL.createInputStream(false));
     if (reader != nullptr) // good file
     {
@@ -50,10 +50,12 @@ void DJAudioPlayer::loadURL(URL audioURL) {
         transportSource.setSource(newSource.get(), 0, nullptr, reader->sampleRate);
         readerSource.reset(newSource.release());
         //transportSource.start(); // wrapped in start function
+        return true;
     }
     else
     {
         DBG("Something went wrong loading the file ");
+        return false;
     }
 }
 void DJAudioPlayer::setGain(double gain) {

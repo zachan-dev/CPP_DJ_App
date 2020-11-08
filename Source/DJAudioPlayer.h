@@ -22,7 +22,7 @@ class DJAudioPlayer : public AudioSource {
         void getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill) override;
         void releaseResources() override;
 
-        void loadURL(URL audioURL);
+        bool loadURL(URL audioURL);
         void setGain(double gain);
         void setSpeed(double ratio);
         void setPosition(double posInSecs);
@@ -42,4 +42,6 @@ class DJAudioPlayer : public AudioSource {
         std::unique_ptr<AudioFormatReaderSource> readerSource; // smart pointer to read the audio file from the AudioFormatManager
         AudioTransportSource transportSource; // add a layer for volume control / startOrStop control
         ResamplingAudioSource resampleSource{ &transportSource, false, 2 }; // add a layer for speed control
+
+        friend class DeckGUI;
 };

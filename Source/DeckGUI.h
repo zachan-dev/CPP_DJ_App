@@ -58,6 +58,7 @@ private:
     TextButton pauseButton{ "PAUSE" };
     TextButton stopButton{ "STOP" };
     TextButton loadButton{ "LOAD" };
+    ToggleButton loopButton{ "LOOP" };
 
     Slider volSlider;
     Label volLabel;

@@ -41,6 +41,7 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
     addAndMakeVisible(pauseButton);
     addAndMakeVisible(stopButton);
     addAndMakeVisible(loadButton);
+    addAndMakeVisible(loopButton);
     addAndMakeVisible(volSlider);
     addAndMakeVisible(volLabel);
     addAndMakeVisible(speedSlider);
@@ -75,6 +76,7 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
     pauseButton.addListener(this);
     stopButton.addListener(this);
     loadButton.addListener(this);
+    loopButton.addListener(this);
     volSlider.addListener(this);
     speedSlider.addListener(this);
     posSlider.addListener(this);
@@ -118,7 +120,7 @@ void DeckGUI::resized()
     // This method is where you should set the bounds of any child
     // components that your component contains..
 
-    double rowH = getHeight() / 11;
+    double rowH = getHeight() / 12;
     double rotaryH = 3 * rowH;
     double rotaryW = getWidth() / 3;
 
@@ -134,6 +136,7 @@ void DeckGUI::resized()
     waveformDisplay.setBounds(0, rowH * 8, getWidth(), rowH * 2);
 
     loadButton.setBounds(0, rowH * 10, getWidth(), rowH);
+    loopButton.setBounds(0, rowH * 11, getWidth(), rowH);
 }
 
 // implement Button::Listener
@@ -160,8 +163,17 @@ void DeckGUI::buttonClicked(Button* button) {
         FileChooser chooser{ "Select a file..." };
         if (chooser.browseForFileToOpen()) // will return true if user choose >= 1 files
         {
-            player->loadURL(URL{ chooser.getResult() });
-            waveformDisplay.loadURL(URL{ chooser.getResult() });
+            bool sucessLoading = player->loadURL(URL{ chooser.getResult() });
+            if (sucessLoading) {
+                waveformDisplay.loadURL(URL{ chooser.getResult() });
+                player->readerSource->setLooping(loopButton.getToggleStateValue() == 1); // set looping on AudioFormatReaderSource
+            }
+        }
+    }
+    if (button == &loopButton) {
+        if (player->readerSource != nullptr) {
+            // set looping on AudioFormatReaderSource
+            player->readerSource->setLooping(loopButton.getToggleStateValue() == 1);
         }
     }
 }
@@ -209,4 +221,5 @@ void DeckGUI::reset() {
     posSlider.setValue(1.0);
     posSlider.setValue(0.0);
     waveformDisplay.reset();
+    loopButton.setToggleState(false, NotificationType::dontSendNotification);
 }
