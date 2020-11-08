@@ -118,9 +118,24 @@ void TracksManager::buttonClicked(Button* button)
     }
     for (auto& track : tracks) {
         if (button == &(track->deckGUI.closeButton)) {
-            hideTrack(track);
+            trackToBeClosed = track;
+            AlertWindow::showOkCancelBox(AlertWindow::QuestionIcon, "OtoDesks",
+                "Do you really want to close this track? Its settings will not be saved.",
+                {}, {}, {}, 
+                ModalCallbackFunction::forComponent(closeTrackAlertBoxResultChosen, this));
         }
     }
+}
+
+// for Close Track Alert Box
+void TracksManager::closeTrackAlertBoxResultChosen(int result, TracksManager* tm)
+{
+    /*AlertWindow::showMessageBoxAsync(AlertWindow::InfoIcon, "Alert Box",
+        "Result code: " + String(result));*/
+    if (result) {
+        tm->hideTrack(tm->trackToBeClosed);
+    }
+    tm->trackToBeClosed = nullptr;
 }
 
 

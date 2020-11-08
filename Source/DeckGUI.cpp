@@ -139,6 +139,7 @@ void DeckGUI::resized()
 // implement Button::Listener
 //==============================================================================
 void DeckGUI::buttonClicked(Button* button) {
+    // close Button handler in TracksManager
     if (button == &playButton) {
         DBG("DeckGUI::buttonClicked Play button was clicked");
         player->start();

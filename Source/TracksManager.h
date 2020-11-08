@@ -39,6 +39,9 @@ public:
     //==============================================================================
     void buttonClicked(Button* button) override;
 
+    // for Close Track Alert Box
+    static void closeTrackAlertBoxResultChosen(int result, TracksManager* tm);
+
     std::vector<Track*> initTracks();
     void addTrack();
     void hideTrack(Track* track);
@@ -51,6 +54,7 @@ private:
     AudioThumbnailCache thumbCache{ 100 };
 
     std::vector<Track*> tracks;
+    Track* trackToBeClosed; // for close track alert box use
     AddDeckGUI addDeck;
 
     MixerAudioSource mixerSource;
