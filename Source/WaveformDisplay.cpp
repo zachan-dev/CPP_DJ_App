@@ -96,3 +96,8 @@ void WaveformDisplay::setPositionRelative(double pos) {
         repaint();
     }
 }
+
+void WaveformDisplay::reset() {
+    fileLoaded = false;
+    repaint();
+}

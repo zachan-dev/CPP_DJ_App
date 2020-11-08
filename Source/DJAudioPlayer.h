@@ -34,6 +34,8 @@ class DJAudioPlayer : public AudioSource {
         /* get the relative position of the playhead */
         double getPositionRelative() const;
 
+        void reset();
+
     private:
         // Audio Playback Onion layers
         AudioFormatManager& formatManager; // audio file uncompressor

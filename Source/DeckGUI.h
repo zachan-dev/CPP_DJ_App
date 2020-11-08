@@ -49,8 +49,10 @@ public:
     //==============================================================================
     void timerCallback() override;
 
+    void reset();
+
 private:
-    // buttons
+    TextButton closeButton{ "CLOSE" };
     TextButton playButton{ "PLAY" };
     TextButton stopButton{ "STOP" };
     TextButton loadButton{ "LOAD" };
@@ -62,6 +64,8 @@ private:
     WaveformDisplay waveformDisplay;
 
     DJAudioPlayer* player;
+
+    friend class MainComponent;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DeckGUI)
 };

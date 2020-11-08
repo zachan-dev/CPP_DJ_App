@@ -138,10 +138,12 @@
     <Lib/>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\PlaylistComponent.cpp"/>
-    <ClCompile Include="..\..\Source\WaveformDisplay.cpp"/>
+    <ClCompile Include="..\..\Source\Track.cpp"/>
+    <ClCompile Include="..\..\Source\AddDeckGUI.cpp"/>
     <ClCompile Include="..\..\Source\DeckGUI.cpp"/>
     <ClCompile Include="..\..\Source\DJAudioPlayer.cpp"/>
+    <ClCompile Include="..\..\Source\PlaylistComponent.cpp"/>
+    <ClCompile Include="..\..\Source\WaveformDisplay.cpp"/>
     <ClCompile Include="..\..\Source\MainComponent.cpp"/>
     <ClCompile Include="..\..\Source\Main.cpp"/>
     <ClCompile Include="..\..\..\..\..\..\..\..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.cpp">
@@ -1911,10 +1913,12 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_opengl.cpp"/>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\PlaylistComponent.h"/>
-    <ClInclude Include="..\..\Source\WaveformDisplay.h"/>
+    <ClInclude Include="..\..\Source\Track.h"/>
+    <ClInclude Include="..\..\Source\AddDeckGUI.h"/>
     <ClInclude Include="..\..\Source\DeckGUI.h"/>
     <ClInclude Include="..\..\Source\DJAudioPlayer.h"/>
+    <ClInclude Include="..\..\Source\PlaylistComponent.h"/>
+    <ClInclude Include="..\..\Source\WaveformDisplay.h"/>
     <ClInclude Include="..\..\Source\MainComponent.h"/>
     <ClInclude Include="..\..\..\..\..\..\..\..\..\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h"/>
     <ClInclude Include="..\..\..\..\..\..\..\..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.h"/>

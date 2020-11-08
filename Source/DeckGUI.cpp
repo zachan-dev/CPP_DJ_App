@@ -21,6 +21,7 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
     // In your constructor, you should add any child components, and
     // initialise any special settings that your component needs.
 
+    addAndMakeVisible(closeButton);
     addAndMakeVisible(playButton);
     addAndMakeVisible(stopButton);
     addAndMakeVisible(loadButton);
@@ -30,6 +31,7 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
     addAndMakeVisible(waveformDisplay);
 
     // register listeners
+    //closeButton listener is in Main
     playButton.addListener(this);
     stopButton.addListener(this);
     loadButton.addListener(this);
@@ -39,6 +41,9 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
 
     volSlider.setRange(0.0, 1.0); // set volume range limit
     posSlider.setRange(0.0, 1.0);
+
+    volSlider.setValue(1.0);
+    speedSlider.setValue(1.0);
 
     startTimer(500); // every 500 ms
 }
@@ -73,18 +78,19 @@ void DeckGUI::resized()
     // This method is where you should set the bounds of any child
     // components that your component contains..
 
-    double rowH = getHeight() / 8;
+    double rowH = getHeight() / 9;
 
-    playButton.setBounds(0, 0, getWidth(), rowH);
-    stopButton.setBounds(0, rowH, getWidth(), rowH);
+    closeButton.setBounds(0, 0, getWidth(), rowH);
+    playButton.setBounds(0, rowH, getWidth(), rowH);
+    stopButton.setBounds(0, rowH * 2, getWidth(), rowH);
 
-    volSlider.setBounds(0, rowH * 2, getWidth(), rowH);
-    speedSlider.setBounds(0, rowH * 3, getWidth(), rowH);
-    posSlider.setBounds(0, rowH * 4, getWidth(), rowH);
+    volSlider.setBounds(0, rowH * 3, getWidth(), rowH);
+    speedSlider.setBounds(0, rowH * 4, getWidth(), rowH);
+    posSlider.setBounds(0, rowH * 5, getWidth(), rowH);
 
-    waveformDisplay.setBounds(0, rowH * 5, getWidth(), rowH * 2);
+    waveformDisplay.setBounds(0, rowH * 6, getWidth(), rowH * 2);
 
-    loadButton.setBounds(0, rowH * 7, getWidth(), rowH);
+    loadButton.setBounds(0, rowH * 8, getWidth(), rowH);
 }
 
 // implement Button::Listener
@@ -144,4 +150,13 @@ void DeckGUI::filesDropped(const StringArray& files, int x, int y) {
 void DeckGUI::timerCallback() {
     //DBG("DeckGUI::timerCallback");
     waveformDisplay.setPositionRelative(player->getPositionRelative());
+}
+
+void DeckGUI::reset() {
+    player->stop();
+    volSlider.setValue(1.0);
+    speedSlider.setValue(1.0);
+    posSlider.setValue(1.0);
+    posSlider.setValue(0.0);
+    waveformDisplay.reset();
 }

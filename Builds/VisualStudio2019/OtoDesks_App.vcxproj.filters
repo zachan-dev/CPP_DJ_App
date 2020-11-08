@@ -412,16 +412,22 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\PlaylistComponent.cpp">
+    <ClCompile Include="..\..\Source\Track.cpp">
       <Filter>OtoDesks\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\WaveformDisplay.cpp">
+    <ClCompile Include="..\..\Source\AddDeckGUI.cpp">
       <Filter>OtoDesks\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\DeckGUI.cpp">
       <Filter>OtoDesks\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\DJAudioPlayer.cpp">
+      <Filter>OtoDesks\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PlaylistComponent.cpp">
+      <Filter>OtoDesks\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\WaveformDisplay.cpp">
       <Filter>OtoDesks\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\MainComponent.cpp">
@@ -2340,16 +2346,22 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\PlaylistComponent.h">
+    <ClInclude Include="..\..\Source\Track.h">
       <Filter>OtoDesks\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\WaveformDisplay.h">
+    <ClInclude Include="..\..\Source\AddDeckGUI.h">
       <Filter>OtoDesks\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\DeckGUI.h">
       <Filter>OtoDesks\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\DJAudioPlayer.h">
+      <Filter>OtoDesks\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PlaylistComponent.h">
+      <Filter>OtoDesks\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\WaveformDisplay.h">
       <Filter>OtoDesks\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\MainComponent.h">
