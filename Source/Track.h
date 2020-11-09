@@ -18,7 +18,7 @@ class Track : public AudioAppComponent {
 
 public:
     //==============================================================================
-    Track(AudioFormatManager& fm, AudioThumbnailCache& tc);
+    Track(AudioFormatManager& fm, AudioThumbnailCache& tc, int trackID);
     ~Track();
 
     //==============================================================================
@@ -31,6 +31,8 @@ public:
 private:
     DJAudioPlayer player;
     DeckGUI deckGUI;
+    int trackID;
 
     friend class TracksManager;
+    friend class PlaylistComponent;
 };

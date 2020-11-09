@@ -27,7 +27,7 @@ public:
     friend class TracksManager;
 
 private:
-    TextButton addTrackButton{ "ADD A TRACK" };
+    TextButton addTrackButton{ "CLICK TO\nADD A TRACK" };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AddDeckGUI)
 };

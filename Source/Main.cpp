@@ -12,11 +12,11 @@
 #include "MainComponent.h"
 
 //==============================================================================
-class OtoDesksWinApplication  : public JUCEApplication
+class OtoDecksWinApplication  : public JUCEApplication
 {
 public:
     //==============================================================================
-    OtoDesksWinApplication() {}
+    OtoDecksWinApplication() {}
 
     const String getApplicationName() override       { return ProjectInfo::projectName; }
     const String getApplicationVersion() override    { return ProjectInfo::versionString; }
@@ -103,4 +103,4 @@ private:
 
 //==============================================================================
 // This macro generates the main() routine that launches the app.
-START_JUCE_APPLICATION (OtoDesksWinApplication)
+START_JUCE_APPLICATION (OtoDecksWinApplication)

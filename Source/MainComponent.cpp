@@ -11,6 +11,8 @@
 //==============================================================================
 MainComponent::MainComponent()
 {
+    showWelcomeMessageBox();
+
     // Make sure you set the size of the component after
     // you add any child components.
     setSize (800, 600);
@@ -110,7 +112,7 @@ void MainComponent::paint (Graphics& g)
     // You can add your drawing code here!
     // App Watermark
     g.setFont(20.0f);
-    g.drawText("OtoDesks", getLocalBounds(),
+    g.drawText(ProjectInfo::projectName, getLocalBounds(),
     Justification::centred, true);
 }
 
@@ -123,4 +125,11 @@ void MainComponent::resized()
 
     tracksManager.setBounds(0, 0, getWidth(), 2 * getHeight() / 3);
     playlistComponent.setBounds(0, 2 * getHeight() / 3, getWidth(), getHeight() / 3);
+}
+
+void MainComponent::showWelcomeMessageBox()
+{
+    std::string projectName = ProjectInfo::projectName;
+    AlertWindow::showMessageBox(AlertWindow::InfoIcon, projectName,
+        "Welcome to " + projectName + "!\n\nSimple Mixer DJing application\nby Zach Chan");
 }

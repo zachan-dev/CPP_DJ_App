@@ -46,6 +46,8 @@ public:
     void addTrack();
     void hideTrack(Track* track);
     std::vector<Track*> visibleTracks();
+    Track* getTrackUsingID(int id);
+    StringArray getAvaliableTrackNumbers();
 
 private:
     const static int TRACKS_LIMIT = 5;
@@ -58,6 +60,8 @@ private:
     AddDeckGUI addDeck;
 
     MixerAudioSource mixerSource;
+
+    friend class PlaylistComponent;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (TracksManager)
 };

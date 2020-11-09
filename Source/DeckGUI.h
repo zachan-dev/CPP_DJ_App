@@ -27,7 +27,8 @@ class DeckGUI : public Component,
 public:
     DeckGUI(DJAudioPlayer* player,
             AudioFormatManager& formatManagerToUse, 
-            AudioThumbnailCache& cacheToUse);
+            AudioThumbnailCache& cacheToUse,
+            int trackID);
     ~DeckGUI();
 
     void paint (Graphics&) override;
@@ -51,9 +52,10 @@ public:
     void timerCallback() override;
 
     void reset();
+    bool loadURL(URL& fileURL);
 
 private:
-    TextButton closeButton{ "CLOSE" };
+    TextButton closeButton{ "X" };
     TextButton playButton{ "PLAY" };
     TextButton pauseButton{ "PAUSE" };
     TextButton stopButton{ "STOP" };
@@ -73,6 +75,8 @@ private:
     WaveformDisplay waveformDisplay;
 
     DJAudioPlayer* player;
+
+    int trackID;
 
     friend class TracksManager;
 

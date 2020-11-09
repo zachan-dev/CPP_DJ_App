@@ -36,12 +36,14 @@ public:
     void paint (Graphics& g) override;
     void resized() override;
 
+    void showWelcomeMessageBox();
+
 private:
     //==============================================================================
     // Your private member variables go here...
 
     TracksManager tracksManager;
-    PlaylistComponent playlistComponent;
+    PlaylistComponent playlistComponent{ &tracksManager };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

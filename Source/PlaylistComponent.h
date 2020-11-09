@@ -14,6 +14,9 @@
 #include <vector>
 #include <string>
 
+#include "TracksManager.h"
+#include "DJAudioPlayer.h"
+
 //==============================================================================
 /*
 */
@@ -22,7 +25,7 @@ class PlaylistComponent    : public Component,
                              public Button::Listener
 {
 public:
-    PlaylistComponent();
+    PlaylistComponent(TracksManager* tm);
     ~PlaylistComponent();
 
     void paint (Graphics&) override;
@@ -51,10 +54,19 @@ public:
     //==============================================
     void buttonClicked(Button* button) override;
 
+    bool pushFileToPlaylist(File* file);
+    static double getAudioFileDuration(File* file, AudioFormatManager* fm);
+    static String toUniversalURL(String path);
+    void refresh();
+
 private:
 
+    TracksManager* tracksManager;
+
     TableListBox tableComponent;
-    std::vector<std::string> trackTitles;
+    std::vector<File*> trackFiles;
+
+    int columnsNum = 4;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PlaylistComponent)
 };

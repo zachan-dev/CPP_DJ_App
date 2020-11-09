@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="Lxtq0d" name="OtoDesks" projectType="guiapp" jucerVersion="5.4.7">
-  <MAINGROUP id="qX6nG8" name="OtoDesks">
+<JUCERPROJECT id="Lxtq0d" name="OtoDecks" projectType="guiapp" jucerVersion="5.4.7">
+  <MAINGROUP id="qX6nG8" name="OtoDecks">
     <GROUP id="{70023AF0-FF77-C5BD-591C-2EFD2831DEEB}" name="Source">
+      <FILE id="dDImS7" name="djicon.svg" compile="0" resource="1" file="Source/djicon.svg"/>
       <FILE id="X9kdeU" name="OtherLookAndFeel.cpp" compile="1" resource="0"
             file="Source/OtherLookAndFeel.cpp"/>
       <FILE id="HRbPoa" name="OtherLookAndFeel.h" compile="0" resource="0"
@@ -34,7 +35,7 @@
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <XCODE_MAC targetFolder="Builds/MacOSX">
+    <XCODE_MAC targetFolder="Builds/MacOSX" smallIcon="dDImS7" bigIcon="dDImS7">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug"/>
         <CONFIGURATION isDebug="0" name="Release"/>
@@ -55,7 +56,7 @@
         <MODULEPATH id="juce_opengl" path="../../../../JUCE/modules"/>
       </MODULEPATHS>
     </XCODE_MAC>
-    <VS2019 targetFolder="Builds/VisualStudio2019">
+    <VS2019 targetFolder="Builds/VisualStudio2019" smallIcon="dDImS7" bigIcon="dDImS7">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug"/>
         <CONFIGURATION isDebug="0" name="Release"/>
@@ -76,7 +77,7 @@
         <MODULEPATH id="juce_opengl" path="../../../../JUCE/modules"/>
       </MODULEPATHS>
     </VS2019>
-    <LINUX_MAKE targetFolder="Builds/LinuxMakefile">
+    <LINUX_MAKE targetFolder="Builds/LinuxMakefile" smallIcon="dDImS7" bigIcon="dDImS7">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug"/>
         <CONFIGURATION isDebug="0" name="Release"/>

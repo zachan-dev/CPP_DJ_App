@@ -119,7 +119,7 @@ void TracksManager::buttonClicked(Button* button)
     for (auto& track : tracks) {
         if (button == &(track->deckGUI.closeButton)) {
             trackToBeClosed = track;
-            AlertWindow::showOkCancelBox(AlertWindow::QuestionIcon, "OtoDesks",
+            AlertWindow::showOkCancelBox(AlertWindow::QuestionIcon, ProjectInfo::projectName,
                 "Do you really want to close this track? Its settings will not be saved.",
                 {}, {}, {}, 
                 ModalCallbackFunction::forComponent(closeTrackAlertBoxResultChosen, this));
@@ -143,7 +143,7 @@ std::vector<Track*> TracksManager::initTracks()
 {
     std::vector<Track*> rtn;
     for (int i = 0; i < TRACKS_LIMIT; ++i) {
-        rtn.push_back(new Track(formatManager, thumbCache));
+        rtn.push_back(new Track(formatManager, thumbCache, (i + 1)));
     }
     return rtn;
 }
@@ -173,4 +173,23 @@ std::vector<Track*> TracksManager::visibleTracks()
         }
     }
     return rtn;
+}
+Track* TracksManager::getTrackUsingID(int id)
+{
+    for (auto& track : tracks)
+    {
+        if (track->trackID == id) return track;
+    }
+    return nullptr;
+}
+
+StringArray TracksManager::getAvaliableTrackNumbers()
+{
+    StringArray sa = {};
+    for (auto& track : tracks) {
+        if (track->deckGUI.isVisible()) {
+            sa.add(std::to_string(track->trackID));
+        }
+    }
+    return sa;
 }

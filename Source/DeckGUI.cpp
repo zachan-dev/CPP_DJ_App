@@ -14,7 +14,8 @@
 //==============================================================================
 DeckGUI::DeckGUI(DJAudioPlayer* _player,
                 AudioFormatManager& formatManagerToUse,
-                AudioThumbnailCache& cacheToUse)
+                AudioThumbnailCache& cacheToUse,
+                int trackID)
     : player{ _player }, 
       waveformDisplay{ formatManagerToUse, cacheToUse },
       volSliderLookAndFeel{
@@ -31,7 +32,8 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
         Colour(0, 119, 181), // LinkedIn blue
         Colour(29, 161, 242), // Twitter blue
         Colour(20, 23, 26) // Twitter black
-      }
+      },
+      trackID{ trackID }
 {
     // In your constructor, you should add any child components, and
     // initialise any special settings that your component needs.
@@ -81,6 +83,11 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
     speedSlider.addListener(this);
     posSlider.addListener(this);
 
+    playButton.setColour(TextButton::ColourIds::buttonColourId, Colour(37, 211, 102)); // green
+    pauseButton.setColour(TextButton::ColourIds::buttonColourId, Colour(255, 87, 0)); // orange
+    stopButton.setColour(TextButton::ColourIds::buttonColourId, Colour(205, 32, 31)); // red
+    closeButton.setColour(TextButton::ColourIds::buttonColourId, Colours::red); // red
+
     volSlider.setRange(0.0, 1.0); // set volume range limit
     posSlider.setRange(0.0, 1.0);
 
@@ -111,8 +118,10 @@ void DeckGUI::paint (Graphics& g)
 
     g.setColour (Colours::white);
     g.setFont (14.0f);
-    /*g.drawText ("DeckGUI", getLocalBounds(),
-                Justification::centred, true);*/   // draw some placeholder text
+
+    // Show which track it is
+    g.drawText ("Track #" + std::to_string(trackID), getLocalBounds(),
+                Justification::centredBottom, true);   
 }
 
 void DeckGUI::resized()
@@ -120,23 +129,24 @@ void DeckGUI::resized()
     // This method is where you should set the bounds of any child
     // components that your component contains..
 
-    double rowH = getHeight() / 12;
+    double rowH = getHeight() / 9;
     double rotaryH = 3 * rowH;
     double rotaryW = getWidth() / 3;
+    double controlsW = getWidth() / 4;
 
-    closeButton.setBounds(0, 0, getWidth(), rowH);
-    playButton.setBounds(0, rowH, getWidth(), rowH);
-    pauseButton.setBounds(0, rowH * 2, getWidth(), rowH);
-    stopButton.setBounds(0, rowH * 3, getWidth(), rowH);
+    playButton.setBounds(0, 0, controlsW, rowH);
+    pauseButton.setBounds(controlsW, 0, controlsW, rowH);
+    stopButton.setBounds(2 * controlsW, 0 * 3, controlsW, rowH);
+    closeButton.setBounds(3 * controlsW, 0, controlsW, rowH);
 
-    volSlider.setBounds(0, rowH * 5, rotaryW, rotaryH);
-    speedSlider.setBounds(rotaryW, rowH * 5, rotaryW, rotaryH);
-    posSlider.setBounds(2 * rotaryW, rowH * 5, rotaryW, rotaryH);
+    volSlider.setBounds(0, rowH * 2, rotaryW, rotaryH);
+    speedSlider.setBounds(rotaryW, rowH * 2, rotaryW, rotaryH);
+    posSlider.setBounds(2 * rotaryW, rowH * 2, rotaryW, rotaryH);
 
-    waveformDisplay.setBounds(0, rowH * 8, getWidth(), rowH * 2);
+    waveformDisplay.setBounds(0, rowH * 5, getWidth(), rowH * 2);
 
-    loadButton.setBounds(0, rowH * 10, getWidth(), rowH);
-    loopButton.setBounds(0, rowH * 11, getWidth(), rowH);
+    loadButton.setBounds(0, rowH * 7, getWidth(), rowH);
+    loopButton.setBounds(0, rowH * 8, getWidth(), rowH);
 }
 
 // implement Button::Listener
@@ -163,11 +173,7 @@ void DeckGUI::buttonClicked(Button* button) {
         FileChooser chooser{ "Select a file..." };
         if (chooser.browseForFileToOpen()) // will return true if user choose >= 1 files
         {
-            bool sucessLoading = player->loadURL(URL{ chooser.getResult() });
-            if (sucessLoading) {
-                waveformDisplay.loadURL(URL{ chooser.getResult() });
-                player->readerSource->setLooping(loopButton.getToggleStateValue() == 1); // set looping on AudioFormatReaderSource
-            }
+            loadURL(URL{ chooser.getResult() });
         }
     }
     if (button == &loopButton) {
@@ -222,4 +228,16 @@ void DeckGUI::reset() {
     posSlider.setValue(0.0);
     waveformDisplay.reset();
     loopButton.setToggleState(false, NotificationType::dontSendNotification);
+}
+
+bool DeckGUI::loadURL(URL& fileURL)
+{
+    bool sucessLoading = player->loadURL(fileURL);
+    if (sucessLoading) {
+        reset();
+        waveformDisplay.loadURL(fileURL);
+        player->readerSource->setLooping(loopButton.getToggleStateValue() == 1); // set looping on AudioFormatReaderSource
+        return true;
+    }
+    return false;
 }

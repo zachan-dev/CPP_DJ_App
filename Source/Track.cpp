@@ -11,9 +11,10 @@
 #include "Track.h"
 
 //==============================================================================
-Track::Track(AudioFormatManager& fm, AudioThumbnailCache& tc) 
+Track::Track(AudioFormatManager& fm, AudioThumbnailCache& tc, int trackID) 
     : player{ fm }, 
-      deckGUI{ &player, fm, tc }
+      deckGUI{ &player, fm, tc, trackID },
+      trackID{ trackID }
 {
 
 }

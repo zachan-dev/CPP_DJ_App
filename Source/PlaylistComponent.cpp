@@ -12,20 +12,31 @@
 #include "PlaylistComponent.h"
 
 //==============================================================================
-PlaylistComponent::PlaylistComponent()
+PlaylistComponent::PlaylistComponent(TracksManager* tm)
+    : tracksManager{tm}
 {
     // In your constructor, you should add any child components, and
     // initialise any special settings that your component needs.
 
-    trackTitles.push_back("Track 1");
-    trackTitles.push_back("Track 2");
-    trackTitles.push_back("Track 3");
-    trackTitles.push_back("Track 4");
-    trackTitles.push_back("Track 5");
-    trackTitles.push_back("Track 6");
+    std::string parent_path = "C:\\Users\\chans\\Music\\tracks_example";
+    bool enableFNEWarnings = true;
+    for (int i = 1; i <= 5; ++i) {
+        File* file = new File(parent_path + "\\Track_"+std::to_string(i)+".mp3");
+        if (!pushFileToPlaylist(file)) {
+            if (enableFNEWarnings) {
+                enableFNEWarnings = AlertWindow::showOkCancelBox(AlertWindow::WarningIcon, ProjectInfo::projectName,
+                    "Audio file path " + file->getFullPathName() + " does not exist.",
+                    "OK", "Skip Warnings");
+            }
+            delete file;
+        }
+    }
 
-    tableComponent.getHeader().addColumn("Track title", 1, 400);
-    tableComponent.getHeader().addColumn("", 2, 400);
+    // please also update columnsNum
+    tableComponent.getHeader().addColumn("File name", 1, 400);
+    tableComponent.getHeader().addColumn("Extension", 2, 400);
+    tableComponent.getHeader().addColumn("Length (HH:mm:ss)", 3, 400);
+    tableComponent.getHeader().addColumn("", 4, 400);
 
     tableComponent.setModel(this);
 
@@ -35,6 +46,10 @@ PlaylistComponent::PlaylistComponent()
 
 PlaylistComponent::~PlaylistComponent()
 {
+    for (auto& file : trackFiles) {
+        delete file;
+        file = nullptr;
+    }
 }
 
 void PlaylistComponent::paint (Graphics& g)
@@ -62,14 +77,16 @@ void PlaylistComponent::resized()
     // This method is where you should set the bounds of any child
     // components that your component contains..
     tableComponent.setBounds(0, 0, getWidth(), getHeight());
-    tableComponent.getHeader().setColumnWidth(1, getWidth() / 2);
-    tableComponent.getHeader().setColumnWidth(2, getWidth() / 2);
+
+    for (int i = 1; i <= columnsNum; ++i) {
+        tableComponent.getHeader().setColumnWidth(i, getWidth() / columnsNum);
+    }
 }
 
 //Implement TableListBoxModel
 //==============================================
 int PlaylistComponent::getNumRows() {
-    return trackTitles.size();
+    return trackFiles.size();
 };
 void PlaylistComponent::paintRowBackground(Graphics& g, 
                                     int rowNumber, 
@@ -92,9 +109,28 @@ void PlaylistComponent::paintCell(Graphics& g,
                                 bool rowIsSelected)
 {
     if (rowNumber < getNumRows()) {
-        g.drawText(trackTitles[rowNumber],
-            2, 0, width - 4, height,
-            Justification::centredLeft, true);
+        if (columnId == 1) { // file name Column
+            g.drawText(trackFiles[rowNumber]->getFileNameWithoutExtension(),
+                2, 0, width - 4, height,
+                Justification::centredLeft, true);
+        }
+        if (columnId == 2) { // extension Column
+            std::string extension = trackFiles[rowNumber]->getFileExtension().toUpperCase().toStdString();
+            extension.erase(std::remove(extension.begin(), extension.end(), '.'), extension.end());
+            g.drawText(extension,
+                2, 0, width - 4, height,
+                Justification::centredLeft, true);
+        }
+        if (columnId == 3) { // audio file length Column
+            double durationInSec = getAudioFileDuration(trackFiles[rowNumber], &(tracksManager->formatManager));
+            time_t seconds(durationInSec); // you have to convert your input_seconds into time_t
+            tm* p = gmtime(&seconds); // convert to broken down time
+            char durationInISO[80];
+            strftime(durationInISO, 80, "%H:%M:%S", p); // convert seconds to ISO8601
+            g.drawText(durationInISO,
+                2, 0, width - 4, height,
+                Justification::centredLeft, true);
+        }
     }
 };
 Component* PlaylistComponent::refreshComponentForCell(int rowNumber,
@@ -102,7 +138,7 @@ Component* PlaylistComponent::refreshComponentForCell(int rowNumber,
                                 bool isRowSelected,
                                 Component* existingComponentToUpdate)
 {
-    if (columnId == 2) { // playbuttons column
+    if (columnId == 4) { // playbuttons column
         if (existingComponentToUpdate == nullptr) {
             TextButton* btn = new TextButton{ "play" };
             String id{ std::to_string(rowNumber) };
@@ -117,6 +153,118 @@ Component* PlaylistComponent::refreshComponentForCell(int rowNumber,
 
 void PlaylistComponent::buttonClicked(Button* button)
 {
-    int id = std::stoi(button->getComponentID().toStdString());
-    DBG("PlaylistComponent::buttonClicked " + trackTitles[id]);
+    // Play buttons clicked
+    int fileId = std::stoi(button->getComponentID().toStdString());
+    DBG("PlaylistComponent::buttonClicked " + trackFiles[fileId]->getFileNameWithoutExtension());
+    DBG("PlaylistComponent::buttonClicked " + trackFiles[fileId]->getFullPathName());
+
+    int trackID = -1;
+    StringArray availableTrackIDs = tracksManager->getAvaliableTrackNumbers();
+    if (availableTrackIDs.size() == 0) {
+        AlertWindow::showMessageBoxAsync(AlertWindow::WarningIcon, ProjectInfo::projectName,
+            "No Avaliable Tracks to play. Please add at least a track first.",
+            "OK");
+        return;
+    }
+
+#if JUCE_MODAL_LOOPS_PERMITTED
+    AlertWindow w(ProjectInfo::projectName,
+        "Please choose an avaliable track to play the audio file:",
+        AlertWindow::QuestionIcon);
+
+    w.addComboBox("option", availableTrackIDs, "Avaliable Track Number");
+    w.addButton("OK", 1, KeyPress(KeyPress::returnKey, 0, 0));
+    w.addButton("Cancel", 0, KeyPress(KeyPress::escapeKey, 0, 0));
+
+    if (w.runModalLoop() != 0) // is they picked 'ok'
+    {
+        // this is the item they chose in the drop-down list..
+        trackID = std::stoi(availableTrackIDs[w.getComboBoxComponent("option")->getSelectedItemIndex()].toStdString());
+    }
+#endif
+
+    if (trackID == -1)
+    {
+        DBG("Select track number unsuccessful!");
+    }
+
+    if (!trackFiles[fileId]->exists()) {
+        DBG("PlaylistComponent::buttonClicked File does not exist anymore!");
+        AlertWindow::showMessageBoxAsync(AlertWindow::WarningIcon, ProjectInfo::projectName,
+            "This audio file does not exist anymore!\n\nRescanning the files and removing non-existing files on the playlist...",
+            "OK");
+        refresh();
+        return;
+    }
+
+    String pathStr = trackFiles[fileId]->getFullPathName();
+    pathStr = toUniversalURL(pathStr);
+
+    URL& filePath = URL(pathStr);
+    Track* track = tracksManager->getTrackUsingID(trackID);
+    if (track == nullptr) {
+        DBG("PlaylistComponent::buttonClicked Unable to retrieve track");
+        return;
+    }
+    if (!track->deckGUI.isVisible()) {
+        DBG("PlaylistComponent::buttonClicked That track is not visible yet!");
+        return;
+    }
+    if (track->deckGUI.loadURL(filePath)) {
+        DBG("PlaylistComponent::buttonClicked Track loading successful!");
+    }
+    else {
+        DBG("PlaylistComponent::buttonClicked Track loading unsuccessful!");
+    }
+}
+
+bool PlaylistComponent::pushFileToPlaylist(File* file)
+{
+    std::vector<AudioFormat*> knownFormats;
+    for (int i = 0; i < tracksManager->formatManager.getNumKnownFormats(); ++i)
+    {
+        knownFormats.push_back(tracksManager->formatManager.getKnownFormat(i));
+    }
+
+    bool validFile = false;
+    for (auto& knownFormat : knownFormats) {
+        if (knownFormat->canHandleFile(*file)) {
+            validFile = true;
+            break;
+        }
+    }
+    if (file->exists() && validFile) {
+        trackFiles.push_back(file);
+        repaint();
+        return true;
+    }
+    else {
+        DBG("File to put into Playlist does not exist.");
+        return false;
+    }
+}
+
+double PlaylistComponent::getAudioFileDuration(File* file, AudioFormatManager* fm)
+{
+    auto* reader = fm->createReaderFor(&(FileInputStream(*file)));
+    return reader->lengthInSamples / reader->sampleRate;
+}
+
+String PlaylistComponent::toUniversalURL(String path)
+{
+    String subfix = path.replace("\\", "//");
+    String prefix = "file:///";
+    return (subfix.toLowerCase().contains(prefix)) ? subfix : prefix + subfix;
+}
+
+void PlaylistComponent::refresh()
+{
+    std::vector<File*> tempTrackFiles = trackFiles; // deep copy
+    trackFiles = {};
+    for (auto& file : tempTrackFiles)
+    {
+        if (!pushFileToPlaylist(file)) delete file;
+    }
+    repaint();
+    tableComponent.updateContent();
 }

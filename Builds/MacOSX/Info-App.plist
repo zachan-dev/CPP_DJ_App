@@ -6,13 +6,13 @@
     <key>CFBundleExecutable</key>
     <string>${EXECUTABLE_NAME}</string>
     <key>CFBundleIconFile</key>
-    <string></string>
+    <string>Icon.icns</string>
     <key>CFBundleIdentifier</key>
-    <string>com.yourcompany.OtoDesks</string>
+    <string>com.yourcompany.OtoDecks</string>
     <key>CFBundleName</key>
-    <string>OtoDesks</string>
+    <string>OtoDecks</string>
     <key>CFBundleDisplayName</key>
-    <string>OtoDesks</string>
+    <string>OtoDecks</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleSignature</key>

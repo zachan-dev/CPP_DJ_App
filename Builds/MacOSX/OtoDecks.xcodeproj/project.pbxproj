@@ -61,6 +61,10 @@
 			isa = PBXBuildFile;
 			fileRef = 08BAE59BF76633DAA88B5410;
 		};
+		C9A016FADD79710A808D997F = {
+			isa = PBXBuildFile;
+			fileRef = 750D520B959C9757154345E2;
+		};
 		2733A1B181B3835CF4651DDC = {
 			isa = PBXBuildFile;
 			fileRef = FBF2A1B4AB5395B4A6B10E69;
@@ -100,6 +104,10 @@
 		347E6BC763C3904F3081B977 = {
 			isa = PBXBuildFile;
 			fileRef = 2431379B0417500A9B7E5ECF;
+		};
+		839BA84AEA362C8EB130E9DE = {
+			isa = PBXBuildFile;
+			fileRef = 6F793B05803DBB6AEE651390;
 		};
 		619DA02AE03E478B49599B8C = {
 			isa = PBXBuildFile;
@@ -199,7 +207,7 @@
 			isa = PBXFileReference;
 			explicitFileType = wrapper.application;
 			includeInIndex = 0;
-			path = OtoDesks.app;
+			path = OtoDecks.app;
 			sourceTree = "BUILT_PRODUCTS_DIR";
 		};
 		1FF1E2E9252ECE4470F2FC0C = {
@@ -377,6 +385,13 @@
 			path = ../../Source/PlaylistComponent.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
+		6F793B05803DBB6AEE651390 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = BinaryData.cpp;
+			path = ../../JuceLibraryCode/BinaryData.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
 		72B5BADF9D130656C43D4693 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
@@ -390,6 +405,13 @@
 			name = Accelerate.framework;
 			path = System/Library/Frameworks/Accelerate.framework;
 			sourceTree = SDKROOT;
+		};
+		750D520B959C9757154345E2 = {
+			isa = PBXFileReference;
+			lastKnownFileType = file.icns;
+			name = Icon.icns;
+			path = Icon.icns;
+			sourceTree = "SOURCE_ROOT";
 		};
 		7D61E7FB764380CBA3B2A9A4 = {
 			isa = PBXFileReference;
@@ -445,6 +467,13 @@
 			lastKnownFileType = sourcecode.cpp.objcpp;
 			name = "include_juce_opengl.mm";
 			path = "../../JuceLibraryCode/include_juce_opengl.mm";
+			sourceTree = "SOURCE_ROOT";
+		};
+		B230EF58756A8B299AC8C6CA = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = BinaryData.h;
+			path = ../../JuceLibraryCode/BinaryData.h;
 			sourceTree = "SOURCE_ROOT";
 		};
 		B49CDAF4C766FE3EDE7C6B24 = {
@@ -552,6 +581,13 @@
 			path = System/Library/Frameworks/IOKit.framework;
 			sourceTree = SDKROOT;
 		};
+		F330E7339740B907099ECEC7 = {
+			isa = PBXFileReference;
+			lastKnownFileType = file.svg;
+			name = djicon.svg;
+			path = ../../Source/djicon.svg;
+			sourceTree = "SOURCE_ROOT";
+		};
 		F3AED18C433FB120E7EF47AD = {
 			isa = PBXFileReference;
 			lastKnownFileType = file;
@@ -590,6 +626,7 @@
 		BDC5579C23028B329C621C2A = {
 			isa = PBXGroup;
 			children = (
+				F330E7339740B907099ECEC7,
 				FBF2A1B4AB5395B4A6B10E69,
 				30D3057F8AF9489744C28125,
 				3C7E737E8667DAF106B44446,
@@ -618,7 +655,7 @@
 			children = (
 				BDC5579C23028B329C621C2A,
 			);
-			name = OtoDesks;
+			name = OtoDecks;
 			sourceTree = "<group>";
 		};
 		33011147669C82B9595D86EC = {
@@ -645,6 +682,8 @@
 			isa = PBXGroup;
 			children = (
 				50B74939D6D793BF7A15C4F3,
+				6F793B05803DBB6AEE651390,
+				B230EF58756A8B299AC8C6CA,
 				A906ABA457AF87E019FC4858,
 				17EF359B1AA698E2A713D138,
 				D2C2C3CD9F431A2489807FF7,
@@ -668,6 +707,7 @@
 			children = (
 				8544E773C1BEB6457FDE329B,
 				08BAE59BF76633DAA88B5410,
+				750D520B959C9757154345E2,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -749,8 +789,8 @@
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Applications";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.OtoDesks;
-				PRODUCT_NAME = "OtoDesks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.OtoDecks;
+				PRODUCT_NAME = "OtoDecks";
 				USE_HEADERMAP = NO;
 			};
 			name = Debug;
@@ -794,8 +834,8 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.OtoDesks;
-				PRODUCT_NAME = "OtoDesks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.OtoDecks;
+				PRODUCT_NAME = "OtoDecks";
 				USE_HEADERMAP = NO;
 			};
 			name = Release;
@@ -841,7 +881,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = "OtoDesks";
+				PRODUCT_NAME = "OtoDecks";
 				SDKROOT = macosx;
 				WARNING_CFLAGS = "-Wreorder";
 				ZERO_LINK = NO;
@@ -887,7 +927,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				PRODUCT_NAME = "OtoDesks";
+				PRODUCT_NAME = "OtoDecks";
 				SDKROOT = macosx;
 				WARNING_CFLAGS = "-Wreorder";
 				ZERO_LINK = NO;
@@ -921,6 +961,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				99D88B98FA8924DF1708E9F0,
+				C9A016FADD79710A808D997F,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -938,6 +979,7 @@
 				25E53C263125E39D9C5457BD,
 				642661429C1B8F2CFDB90DEC,
 				347E6BC763C3904F3081B977,
+				839BA84AEA362C8EB130E9DE,
 				619DA02AE03E478B49599B8C,
 				0680733956C4105EF2DA9D39,
 				B73D911D46AD691112BD0FCB,
@@ -983,8 +1025,8 @@
 			);
 			buildRules = ( );
 			dependencies = ( );
-			name = "OtoDesks - App";
-			productName = OtoDesks;
+			name = "OtoDecks - App";
+			productName = OtoDecks;
 			productReference = 1B29CAD2F948117FF0E31C9B;
 			productType = "com.apple.product-type.application";
 		};
