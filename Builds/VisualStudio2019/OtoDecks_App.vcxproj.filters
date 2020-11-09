@@ -412,6 +412,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\MusicLibrary.cpp">
+      <Filter>OtoDecks\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\OtherLookAndFeel.cpp">
       <Filter>OtoDecks\Source</Filter>
     </ClCompile>
@@ -2355,6 +2358,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\MusicLibrary.h">
+      <Filter>OtoDecks\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\OtherLookAndFeel.h">
       <Filter>OtoDecks\Source</Filter>
     </ClInclude>

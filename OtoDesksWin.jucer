@@ -3,6 +3,9 @@
 <JUCERPROJECT id="Lxtq0d" name="OtoDecks" projectType="guiapp" jucerVersion="5.4.7">
   <MAINGROUP id="qX6nG8" name="OtoDecks">
     <GROUP id="{70023AF0-FF77-C5BD-591C-2EFD2831DEEB}" name="Source">
+      <FILE id="nW0KXv" name="MusicLibrary.cpp" compile="1" resource="0"
+            file="Source/MusicLibrary.cpp"/>
+      <FILE id="QqdhEm" name="MusicLibrary.h" compile="0" resource="0" file="Source/MusicLibrary.h"/>
       <FILE id="dDImS7" name="djicon.svg" compile="0" resource="1" file="Source/djicon.svg"/>
       <FILE id="X9kdeU" name="OtherLookAndFeel.cpp" compile="1" resource="0"
             file="Source/OtherLookAndFeel.cpp"/>

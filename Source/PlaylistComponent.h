@@ -13,6 +13,7 @@
 #include <JuceHeader.h>
 #include <vector>
 #include <string>
+#include <stdlib.h>
 
 #include "TracksManager.h"
 #include "DJAudioPlayer.h"
@@ -58,6 +59,7 @@ public:
     static double getAudioFileDuration(File* file, AudioFormatManager* fm);
     static String toUniversalURL(String path);
     void refresh();
+    bool isFileOnList(File* file);
 
 private:
 
@@ -67,6 +69,8 @@ private:
     std::vector<File*> trackFiles;
 
     int columnsNum = 4;
+
+    void loadFilesFromMemory();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PlaylistComponent)
 };

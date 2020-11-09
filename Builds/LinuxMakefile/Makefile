@@ -68,6 +68,7 @@ ifeq ($(CONFIG),Release)
 endif
 
 OBJECTS_APP := \
+  $(JUCE_OBJDIR)/MusicLibrary_2eb7605f.o \
   $(JUCE_OBJDIR)/OtherLookAndFeel_7c21eed7.o \
   $(JUCE_OBJDIR)/TracksManager_48ee1ae6.o \
   $(JUCE_OBJDIR)/Track_c9ac1f2c.o \
@@ -105,6 +106,11 @@ $(JUCE_OUTDIR)/$(JUCE_TARGET_APP) : $(OBJECTS_APP) $(RESOURCES)
 	-$(V_AT)mkdir -p $(JUCE_LIBDIR)
 	-$(V_AT)mkdir -p $(JUCE_OUTDIR)
 	$(V_AT)$(CXX) -o $(JUCE_OUTDIR)/$(JUCE_TARGET_APP) $(OBJECTS_APP) $(JUCE_LDFLAGS) $(JUCE_LDFLAGS_APP) $(RESOURCES) $(TARGET_ARCH)
+
+$(JUCE_OBJDIR)/MusicLibrary_2eb7605f.o: ../../Source/MusicLibrary.cpp
+	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling MusicLibrary.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/OtherLookAndFeel_7c21eed7.o: ../../Source/OtherLookAndFeel.cpp
 	-$(V_AT)mkdir -p $(JUCE_OBJDIR)

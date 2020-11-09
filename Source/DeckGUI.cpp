@@ -42,7 +42,6 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
     addAndMakeVisible(playButton);
     addAndMakeVisible(pauseButton);
     addAndMakeVisible(stopButton);
-    addAndMakeVisible(loadButton);
     addAndMakeVisible(loopButton);
     addAndMakeVisible(volSlider);
     addAndMakeVisible(volLabel);
@@ -77,7 +76,6 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
     playButton.addListener(this);
     pauseButton.addListener(this);
     stopButton.addListener(this);
-    loadButton.addListener(this);
     loopButton.addListener(this);
     volSlider.addListener(this);
     speedSlider.addListener(this);
@@ -129,7 +127,7 @@ void DeckGUI::resized()
     // This method is where you should set the bounds of any child
     // components that your component contains..
 
-    double rowH = getHeight() / 9;
+    double rowH = getHeight() / 8;
     double rotaryH = 3 * rowH;
     double rotaryW = getWidth() / 3;
     double controlsW = getWidth() / 4;
@@ -145,8 +143,7 @@ void DeckGUI::resized()
 
     waveformDisplay.setBounds(0, rowH * 5, getWidth(), rowH * 2);
 
-    loadButton.setBounds(0, rowH * 7, getWidth(), rowH);
-    loopButton.setBounds(0, rowH * 8, getWidth(), rowH);
+    loopButton.setBounds(0, rowH * 7, getWidth(), rowH);
 }
 
 // implement Button::Listener
@@ -167,15 +164,15 @@ void DeckGUI::buttonClicked(Button* button) {
         posSlider.setValue(1.0);
         posSlider.setValue(0.0);
     }
-    if (button == &loadButton) {
-        DBG("DeckGUI::buttonClicked Load button was clicked");
+    //if (button == &loadButton) {
+    //    DBG("DeckGUI::buttonClicked Load button was clicked");
 
-        FileChooser chooser{ "Select a file..." };
-        if (chooser.browseForFileToOpen()) // will return true if user choose >= 1 files
-        {
-            loadURL(URL{ chooser.getResult() });
-        }
-    }
+    //    FileChooser chooser{ "Select a file..." };
+    //    if (chooser.browseForFileToOpen()) // will return true if user choose >= 1 files
+    //    {
+    //        loadURL(URL{ chooser.getResult() });
+    //    }
+    //}
     if (button == &loopButton) {
         if (player->readerSource != nullptr) {
             // set looping on AudioFormatReaderSource

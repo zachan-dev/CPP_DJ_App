@@ -31,7 +31,7 @@ MainComponent::MainComponent()
     }
 
     addAndMakeVisible(tracksManager);
-    addAndMakeVisible(playlistComponent);
+    addAndMakeVisible(musicLibrary);
 }
 
 MainComponent::~MainComponent()
@@ -124,7 +124,7 @@ void MainComponent::resized()
     DBG("MainComponent::resized"); // debug line
 
     tracksManager.setBounds(0, 0, getWidth(), 2 * getHeight() / 3);
-    playlistComponent.setBounds(0, 2 * getHeight() / 3, getWidth(), getHeight() / 3);
+    musicLibrary.setBounds(0, 2 * getHeight() / 3, getWidth(), getHeight() / 3);
 }
 
 void MainComponent::showWelcomeMessageBox()

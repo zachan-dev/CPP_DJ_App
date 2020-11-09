@@ -14,6 +14,7 @@
 #include "AddDeckGUI.h"
 #include <vector>
 #include "TracksManager.h"
+#include "MusicLibrary.h"
 
 //==============================================================================
 /*
@@ -43,7 +44,7 @@ private:
     // Your private member variables go here...
 
     TracksManager tracksManager;
-    PlaylistComponent playlistComponent{ &tracksManager };
+    MusicLibrary musicLibrary{ &tracksManager };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

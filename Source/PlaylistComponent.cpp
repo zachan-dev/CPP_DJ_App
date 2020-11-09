@@ -18,25 +18,22 @@ PlaylistComponent::PlaylistComponent(TracksManager* tm)
     // In your constructor, you should add any child components, and
     // initialise any special settings that your component needs.
 
-    std::string parent_path = "C:\\Users\\chans\\Music\\tracks_example";
-    bool enableFNEWarnings = true;
-    for (int i = 1; i <= 5; ++i) {
-        File* file = new File(parent_path + "\\Track_"+std::to_string(i)+".mp3");
-        if (!pushFileToPlaylist(file)) {
-            if (enableFNEWarnings) {
-                enableFNEWarnings = AlertWindow::showOkCancelBox(AlertWindow::WarningIcon, ProjectInfo::projectName,
-                    "Audio file path " + file->getFullPathName() + " does not exist.",
-                    "OK", "Skip Warnings");
-            }
-            delete file;
-        }
-    }
+    // load init files
+    loadFilesFromMemory();
 
     // please also update columnsNum
     tableComponent.getHeader().addColumn("File name", 1, 400);
     tableComponent.getHeader().addColumn("Extension", 2, 400);
     tableComponent.getHeader().addColumn("Length (HH:mm:ss)", 3, 400);
     tableComponent.getHeader().addColumn("", 4, 400);
+
+    // give it a border
+    tableComponent.setColour(ListBox::outlineColourId, Colours::grey);
+    tableComponent.setOutlineThickness(1);
+
+    tableComponent.getHeader().setSortColumnId(1, true); // sort forwards by the Name column
+    tableComponent.setMultipleSelectionEnabled(true);
+
 
     tableComponent.setModel(this);
 
@@ -94,12 +91,12 @@ void PlaylistComponent::paintRowBackground(Graphics& g,
                                     int height, 
                                     bool rowIsSelected) 
 {
-    if (rowIsSelected) {
-        g.fillAll(Colours::orange);
-    }
-    else {
-        g.fillAll(Colours::darkgrey);
-    }
+    auto alternateColour = getLookAndFeel().findColour(ListBox::backgroundColourId)
+        .interpolatedWith(getLookAndFeel().findColour(ListBox::textColourId), 0.03f);
+    if (rowIsSelected)
+        g.fillAll(Colours::lightblue);
+    else if (rowNumber % 2)
+        g.fillAll(alternateColour);
 };
 void PlaylistComponent::paintCell(Graphics& g, 
                                 int rowNumber, 
@@ -108,6 +105,13 @@ void PlaylistComponent::paintCell(Graphics& g,
                                 int height, 
                                 bool rowIsSelected)
 {
+    if (rowIsSelected) {
+        g.setColour(Colours::black);
+    }
+    else {
+        g.setColour(getLookAndFeel().findColour(ListBox::textColourId));
+    }
+
     if (rowNumber < getNumRows()) {
         if (columnId == 1) { // file name Column
             g.drawText(trackFiles[rowNumber]->getFileNameWithoutExtension(),
@@ -132,6 +136,9 @@ void PlaylistComponent::paintCell(Graphics& g,
                 Justification::centredLeft, true);
         }
     }
+
+    g.setColour(getLookAndFeel().findColour(ListBox::backgroundColourId));
+    g.fillRect(width - 1, 0, 1, height);
 };
 Component* PlaylistComponent::refreshComponentForCell(int rowNumber,
                                 int columnId,
@@ -147,6 +154,10 @@ Component* PlaylistComponent::refreshComponentForCell(int rowNumber,
             btn->addListener(this);
             existingComponentToUpdate = btn;
         }
+    }
+    else {
+        jassert(existingComponentToUpdate == nullptr);
+        return nullptr;
     }
     return existingComponentToUpdate;
 }
@@ -218,6 +229,17 @@ void PlaylistComponent::buttonClicked(Button* button)
     }
 }
 
+void PlaylistComponent::loadFilesFromMemory()
+{
+    std::string parent_path = "C:\\Users\\chans\\Music\\tracks_example";
+    for (int i = 1; i <= 5; ++i) {
+        File* file = new File(parent_path + "\\Track_" + std::to_string(i) + ".mp3");
+        if (!pushFileToPlaylist(file)) {
+            delete file;
+        }
+    }
+}
+
 bool PlaylistComponent::pushFileToPlaylist(File* file)
 {
     std::vector<AudioFormat*> knownFormats;
@@ -233,7 +255,24 @@ bool PlaylistComponent::pushFileToPlaylist(File* file)
             break;
         }
     }
-    if (file->exists() && validFile) {
+    if (!validFile) {
+        AlertWindow::showMessageBox(AlertWindow::WarningIcon, ProjectInfo::projectName,
+            "Load file failed.\nPlease choose a file with suitable audio format.");
+    }
+
+    bool existFile = file->exists();
+    if (!existFile) {
+        AlertWindow::showMessageBox(AlertWindow::WarningIcon, ProjectInfo::projectName,
+            "Load file failed.\nFile does not exist!\n\nPath: " + file->getFullPathName());
+    }
+
+    bool onListFile = isFileOnList(file);
+    if (onListFile) {
+        AlertWindow::showMessageBox(AlertWindow::WarningIcon, ProjectInfo::projectName,
+            "Load file failed.\nFile is already on the playlist.\n\nFile Name: " + file->getFileNameWithoutExtension());
+    }
+
+    if (validFile && existFile && !onListFile) {
         trackFiles.push_back(file);
         repaint();
         return true;
@@ -267,4 +306,13 @@ void PlaylistComponent::refresh()
     }
     repaint();
     tableComponent.updateContent();
+}
+
+bool PlaylistComponent::isFileOnList(File* file)
+{
+    for (auto& trackFile : trackFiles)
+    {
+        if (trackFile == file) return true;
+    }
+    return false;
 }

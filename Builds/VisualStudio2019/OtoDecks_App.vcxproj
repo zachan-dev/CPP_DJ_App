@@ -138,6 +138,7 @@
     <Lib/>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\MusicLibrary.cpp"/>
     <ClCompile Include="..\..\Source\OtherLookAndFeel.cpp"/>
     <ClCompile Include="..\..\Source\TracksManager.cpp"/>
     <ClCompile Include="..\..\Source\Track.cpp"/>
@@ -1916,6 +1917,7 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_opengl.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\MusicLibrary.h"/>
     <ClInclude Include="..\..\Source\OtherLookAndFeel.h"/>
     <ClInclude Include="..\..\Source\TracksManager.h"/>
     <ClInclude Include="..\..\Source\Track.h"/>
