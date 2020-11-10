@@ -12,14 +12,15 @@
 #include "PlaylistComponent.h"
 
 //==============================================================================
-PlaylistComponent::PlaylistComponent(TracksManager* tm)
-    : tracksManager{tm}
+
+const String PlaylistComponent::TEMP_FILENAME = String(ProjectInfo::projectName);
+const String PlaylistComponent::TEMP_FILEEXT = ".data";
+
+PlaylistComponent::PlaylistComponent(TracksManager* tm, TextEditor* _searchTextbox)
+    : tracksManager{tm}, searchTextbox{_searchTextbox}
 {
     // In your constructor, you should add any child components, and
     // initialise any special settings that your component needs.
-
-    // load init files
-    loadFilesFromMemory();
 
     // please also update columnsNum
     tableComponent.getHeader().addColumn("File name", 1, 400);
@@ -83,6 +84,9 @@ void PlaylistComponent::resized()
 //Implement TableListBoxModel
 //==============================================
 int PlaylistComponent::getNumRows() {
+    if (searchTextbox->getText().isNotEmpty()) { // if there's a search
+        return searchResults.size();
+    }
     return trackFiles.size();
 };
 void PlaylistComponent::paintRowBackground(Graphics& g, 
@@ -105,6 +109,11 @@ void PlaylistComponent::paintCell(Graphics& g,
                                 int height, 
                                 bool rowIsSelected)
 {
+    std::vector<File*> filesVector = trackFiles;
+    if (searchTextbox->getText().isNotEmpty()) { // if there's a search
+        filesVector = searchResults;
+    }
+
     if (rowIsSelected) {
         g.setColour(Colours::black);
     }
@@ -114,19 +123,19 @@ void PlaylistComponent::paintCell(Graphics& g,
 
     if (rowNumber < getNumRows()) {
         if (columnId == 1) { // file name Column
-            g.drawText(trackFiles[rowNumber]->getFileNameWithoutExtension(),
+            g.drawText(filesVector[rowNumber]->getFileNameWithoutExtension(),
                 2, 0, width - 4, height,
                 Justification::centredLeft, true);
         }
         if (columnId == 2) { // extension Column
-            std::string extension = trackFiles[rowNumber]->getFileExtension().toUpperCase().toStdString();
+            std::string extension = filesVector[rowNumber]->getFileExtension().toUpperCase().toStdString();
             extension.erase(std::remove(extension.begin(), extension.end(), '.'), extension.end());
             g.drawText(extension,
                 2, 0, width - 4, height,
                 Justification::centredLeft, true);
         }
         if (columnId == 3) { // audio file length Column
-            double durationInSec = getAudioFileDuration(trackFiles[rowNumber], &(tracksManager->formatManager));
+            double durationInSec = getAudioFileDuration(filesVector[rowNumber], &(tracksManager->formatManager));
             time_t seconds(durationInSec); // you have to convert your input_seconds into time_t
             tm* p = gmtime(&seconds); // convert to broken down time
             char durationInISO[80];
@@ -160,6 +169,48 @@ Component* PlaylistComponent::refreshComponentForCell(int rowNumber,
         return nullptr;
     }
     return existingComponentToUpdate;
+}
+void PlaylistComponent::deleteKeyPressed(int lastRowSelected)
+{
+    DBG("PlaylistComponent::deleteKeyPressed " + lastRowSelected);
+
+    SparseSet<int> selectedRows = tableComponent.getSelectedRows();
+
+    if (selectedRows.size() > 0) {
+
+        int choice = AlertWindow::showYesNoCancelBox(AlertWindow::QuestionIcon, ProjectInfo::projectName,
+            "Are you sure you want to delete the selected " + std::to_string(selectedRows.size()) + " file(s) from the playlist?");
+        if (choice == 1)
+        {
+            for (int i = 0; i < selectedRows.size(); ++i)
+            {
+                int selectedRow = selectedRows[i] - i; // coz trackFiles will update the size after deletion, assume selectedRows is sorted
+
+                if (searchTextbox->getText().isNotEmpty()) // search mode On
+                {
+                    for (int j = 0; j < trackFiles.size(); ++j)
+                    {
+                        if (trackFiles[j] == searchResults[selectedRow]) // if found deleted row from searchResult in trackFiles
+                        {
+                            trackFiles.erase(trackFiles.begin() + j); // also update trackFiles
+                        }
+                    }
+                    delete searchResults[selectedRow]; // release memory first
+                    searchResults.erase(searchResults.begin() + selectedRow);
+                }
+                else 
+                {
+                    delete trackFiles[selectedRow]; // release memory first
+                    trackFiles.erase(trackFiles.begin() + selectedRow);
+                }
+            }
+            tableComponent.updateContent();
+            AlertWindow::showMessageBoxAsync(AlertWindow::InfoIcon, ProjectInfo::projectName,
+                "Deleted " + std::to_string(selectedRows.size()) + " row(s) from the playlist.",
+                "OK");
+            saveToTempFile();
+        }
+    }
 }
 
 void PlaylistComponent::buttonClicked(Button* button)
@@ -205,6 +256,7 @@ void PlaylistComponent::buttonClicked(Button* button)
             "This audio file does not exist anymore!\n\nRescanning the files and removing non-existing files on the playlist...",
             "OK");
         refresh();
+        saveToTempFile();
         return;
     }
 
@@ -226,17 +278,6 @@ void PlaylistComponent::buttonClicked(Button* button)
     }
     else {
         DBG("PlaylistComponent::buttonClicked Track loading unsuccessful!");
-    }
-}
-
-void PlaylistComponent::loadFilesFromMemory()
-{
-    std::string parent_path = "C:\\Users\\chans\\Music\\tracks_example";
-    for (int i = 1; i <= 5; ++i) {
-        File* file = new File(parent_path + "\\Track_" + std::to_string(i) + ".mp3");
-        if (!pushFileToPlaylist(file)) {
-            delete file;
-        }
     }
 }
 
@@ -274,7 +315,7 @@ bool PlaylistComponent::pushFileToPlaylist(File* file)
 
     if (validFile && existFile && !onListFile) {
         trackFiles.push_back(file);
-        repaint();
+        tableComponent.updateContent();
         return true;
     }
     else {
@@ -296,13 +337,15 @@ String PlaylistComponent::toUniversalURL(String path)
     return (subfix.toLowerCase().contains(prefix)) ? subfix : prefix + subfix;
 }
 
-void PlaylistComponent::refresh()
+void PlaylistComponent::refresh(bool deleteNonExistingFiles)
 {
-    std::vector<File*> tempTrackFiles = trackFiles; // deep copy
-    trackFiles = {};
-    for (auto& file : tempTrackFiles)
-    {
-        if (!pushFileToPlaylist(file)) delete file;
+    if (deleteNonExistingFiles) {
+        std::vector<File*> tempTrackFiles = trackFiles; // deep copy
+        trackFiles = {};
+        for (auto& file : tempTrackFiles)
+        {
+            if (!pushFileToPlaylist(file)) delete file;
+        }
     }
     repaint();
     tableComponent.updateContent();
@@ -312,7 +355,88 @@ bool PlaylistComponent::isFileOnList(File* file)
 {
     for (auto& trackFile : trackFiles)
     {
-        if (trackFile == file) return true;
+        if (trackFile->getFullPathName() == file->getFullPathName()) return true;
     }
     return false;
+}
+
+bool PlaylistComponent::readFromFile(File* file)
+{
+    try {
+        std::string fileURL = file->getFullPathName().toStdString();
+        /*std::string projectName = ProjectInfo::projectName;*/
+        std::ifstream fileReader(fileURL);
+        if (fileReader.is_open())
+        {
+            while (fileReader.good())
+            {
+                std::getline(fileReader, fileURL);
+                if (!fileURL.empty()) {
+                    File* audioFile = new File(fileURL);
+                    if (!pushFileToPlaylist(audioFile)) {
+                        delete audioFile;
+                    }
+                }
+            }
+            fileReader.close();
+        }
+        return true;
+    }
+    catch (...) {
+        return false;
+    }
+}
+bool PlaylistComponent::writeToFile(File* file)
+{
+    try {
+        std::string fileURL = file->getFullPathName().toStdString();
+        std::ofstream fileWriter;
+        fileWriter.open(fileURL);
+        for (auto& trackFile : trackFiles)
+        {
+            fileWriter << trackFile->getFullPathName() << std::endl;
+        }
+        fileWriter.close();
+        return true;
+    }
+    catch (...) {
+        return false;
+    }
+}
+
+void PlaylistComponent::saveToTempFile(bool notificationOn)
+{
+    // Save
+    File* fileToSaveTo = new File(TEMP_FILENAME + TEMP_FILEEXT);
+    if (writeToFile(fileToSaveTo)) {
+        if (notificationOn) {
+            AlertWindow::showMessageBox(AlertWindow::InfoIcon, ProjectInfo::projectName,
+                "Load success and saved Playlist to " + TEMP_FILENAME + TEMP_FILEEXT);
+        }
+    }
+    else {
+        if (notificationOn) {
+            AlertWindow::showMessageBox(AlertWindow::WarningIcon, ProjectInfo::projectName,
+                "Error while saving Playlist to " + TEMP_FILENAME + TEMP_FILEEXT);
+        }
+    }
+    delete fileToSaveTo; // release memory
+}
+
+void PlaylistComponent::loadFromTempFile()
+{
+    // Read
+    File* fileToRead = new File(TEMP_FILENAME + TEMP_FILEEXT);
+    if (readFromFile(fileToRead)) {
+        if (fileToRead->exists()) {
+            AlertWindow::showMessageBox(AlertWindow::InfoIcon, ProjectInfo::projectName,
+                "Restored Playlist from " + TEMP_FILENAME + TEMP_FILEEXT);
+            saveToTempFile(false); // save to remove non-existing paths in the temp file
+        }
+    }
+    else {
+        AlertWindow::showMessageBox(AlertWindow::InfoIcon, ProjectInfo::projectName,
+            "Error while reading Playlist from " + TEMP_FILENAME + TEMP_FILEEXT);
+    }
+    delete fileToRead; // release memory
 }

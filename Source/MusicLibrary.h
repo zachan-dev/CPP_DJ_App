@@ -18,7 +18,8 @@
 /*
 */
 class MusicLibrary    : public Component,
-                        public Button::Listener
+                        public Button::Listener,
+                        public TextEditor::Listener
 {
 public:
     MusicLibrary(TracksManager* tm);
@@ -31,6 +32,13 @@ public:
     //==============================================
     void buttonClicked(Button* button) override;
 
+    //Implement TextEditor::Listener
+    //==============================================
+    void textEditorTextChanged(TextEditor& textEditor) override;
+
+    void saveToTempFile();
+    void loadFromTempFile();
+
 private:
     TextButton loadSaveButton{ "Load & Save" };
     TextButton exportButton{ "Export" };
@@ -38,7 +46,7 @@ private:
     TextEditor searchTextbox;
 
     TracksManager* tracksManager;
-    PlaylistComponent playlistComponent{ tracksManager };
+    PlaylistComponent playlistComponent{ tracksManager, &searchTextbox };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MusicLibrary)
 };

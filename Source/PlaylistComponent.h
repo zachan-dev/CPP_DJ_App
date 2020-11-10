@@ -13,7 +13,7 @@
 #include <JuceHeader.h>
 #include <vector>
 #include <string>
-#include <stdlib.h>
+#include <fstream>
 
 #include "TracksManager.h"
 #include "DJAudioPlayer.h"
@@ -26,7 +26,7 @@ class PlaylistComponent    : public Component,
                              public Button::Listener
 {
 public:
-    PlaylistComponent(TracksManager* tm);
+    PlaylistComponent(TracksManager* tm, TextEditor* te);
     ~PlaylistComponent();
 
     void paint (Graphics&) override;
@@ -50,6 +50,7 @@ public:
                             int columnId,
                             bool isRowSelected,
                             Component* existingComponentToUpdate) override;
+    void deleteKeyPressed(int lastRowSelected) override;
 
     //Implement Button::Listener
     //==============================================
@@ -58,19 +59,28 @@ public:
     bool pushFileToPlaylist(File* file);
     static double getAudioFileDuration(File* file, AudioFormatManager* fm);
     static String toUniversalURL(String path);
-    void refresh();
+    void refresh(bool deleteNonExistingFiles = true);
     bool isFileOnList(File* file);
+    bool readFromFile(File* file);
+    bool writeToFile(File* file);
+    void saveToTempFile(bool notificationOn = true);
+    void loadFromTempFile();
+
+    static const String TEMP_FILENAME;
+    static const String TEMP_FILEEXT;
 
 private:
 
     TracksManager* tracksManager;
+    TextEditor* searchTextbox;
 
     TableListBox tableComponent;
     std::vector<File*> trackFiles;
+    std::vector<File*> searchResults;
 
     int columnsNum = 4;
 
-    void loadFilesFromMemory();
+    friend class MusicLibrary;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PlaylistComponent)
 };

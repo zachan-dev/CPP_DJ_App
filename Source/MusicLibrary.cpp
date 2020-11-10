@@ -12,11 +12,16 @@
 #include "MusicLibrary.h"
 
 //==============================================================================
+
 MusicLibrary::MusicLibrary(TracksManager* tm)
     : tracksManager{ tm }
 {
     // In your constructor, you should add any child components, and
     // initialise any special settings that your component needs.
+
+    // init load temp file to the playlist
+    loadFromTempFile();
+
     addAndMakeVisible(playlistComponent);
     addAndMakeVisible(loadSaveButton);
     addAndMakeVisible(exportButton);
@@ -29,6 +34,7 @@ MusicLibrary::MusicLibrary(TracksManager* tm)
     loadSaveButton.addListener(this);
     exportButton.addListener(this);
     importButton.addListener(this);
+    searchTextbox.addListener(this);
 }
 
 MusicLibrary::~MusicLibrary()
@@ -85,6 +91,8 @@ void MusicLibrary::buttonClicked(Button* button)
     {
         DBG("MusicLibrary::buttonClicked Load & Save Button was clicked.");
 
+        // Load
+        bool loaded = false;
         FileChooser chooser{ "Select a file..." };
         do {
             if (chooser.browseForFileToOpen()) // will return true if user choose >= 1 files
@@ -93,18 +101,93 @@ void MusicLibrary::buttonClicked(Button* button)
                 if (playlistComponent.pushFileToPlaylist(file)) {
                     // success
                     playlistComponent.refresh(); // refresh the list
+                    loaded = true;
                     break; // break the do loop
                 }
             }
             else break; // break the do loop if cancwel
         } while (true);
+
+        if (loaded) {
+            saveToTempFile();
+        }
     }
     if (button == &exportButton)
     {
         DBG("MusicLibrary::buttonClicked Export Button was clicked.");
+
+        //Export
+        FileChooser chooser{ "Save to file...", 
+                             File(),
+                             "*" + PlaylistComponent::TEMP_FILEEXT };
+        if (chooser.browseForFileToSave(true))
+        {
+            File* file = new File(chooser.getResult());
+            if (playlistComponent.writeToFile(file)) {
+                AlertWindow::showMessageBox(AlertWindow::InfoIcon, ProjectInfo::projectName,
+                    "Export successfully");
+            }
+            else {
+                AlertWindow::showMessageBox(AlertWindow::WarningIcon, ProjectInfo::projectName,
+                    "Error while exporting Playlist");
+            }
+            delete file; // release memory
+        }
     }
     if (button == &importButton)
     {
         DBG("MusicLibrary::buttonClicked Import Button was clicked.");
+
+        //Import
+        FileChooser chooser{ "Save to file...",
+                             File(),
+                             "*" + PlaylistComponent::TEMP_FILEEXT };
+        if (chooser.browseForFileToOpen())
+        {
+            File* file = new File(chooser.getResult());
+            if (playlistComponent.readFromFile(file)) {
+                AlertWindow::showMessageBox(AlertWindow::InfoIcon, ProjectInfo::projectName,
+                    "Import successfully");
+                saveToTempFile();
+            }
+            else {
+                AlertWindow::showMessageBox(AlertWindow::WarningIcon, ProjectInfo::projectName,
+                    "Error while importing Playlist");
+            }
+            delete file; // release memory
+        }
     }
+}
+
+//Implement TextEditor::Listener
+//==============================================
+void MusicLibrary::textEditorTextChanged(TextEditor& textEditor)
+{
+    if (&textEditor == &searchTextbox) {
+        String searchText = textEditor.getText();
+
+        DBG("MusicLibrary::textEditorTextChanged, Value: " + searchText);
+        playlistComponent.searchResults.clear(); // clear previous searchResults
+
+        if (searchText.isNotEmpty()) {
+            for (auto& trackFile : playlistComponent.trackFiles)
+            {
+                if (trackFile->getFileName().trim().toLowerCase().contains(searchText.trim().toLowerCase())) { // found a match
+                    playlistComponent.searchResults.push_back(trackFile);
+                }
+            }
+        }
+
+        playlistComponent.refresh(false);
+    }
+}
+
+void MusicLibrary::saveToTempFile()
+{
+     playlistComponent.saveToTempFile();
+}
+
+void MusicLibrary::loadFromTempFile()
+{
+    playlistComponent.loadFromTempFile();
 }
