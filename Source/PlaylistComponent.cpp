@@ -212,7 +212,15 @@ void PlaylistComponent::deleteKeyPressed(int lastRowSelected)
         }
     }
 }
+void PlaylistComponent::sortOrderChanged(int newSortColumnId, bool isForwards)
+{
+    if (newSortColumnId == 1) sort("name", isForwards);
+    if (newSortColumnId == 2) sort("ext", isForwards);
+    if (newSortColumnId == 3) sort("len", isForwards);
+}
 
+//Implement Button::Listener
+//==============================================
 void PlaylistComponent::buttonClicked(Button* button)
 {
     // Play buttons clicked
@@ -439,4 +447,44 @@ void PlaylistComponent::loadFromTempFile()
             "Error while reading Playlist from " + TEMP_FILENAME + TEMP_FILEEXT);
     }
     delete fileToRead; // release memory
+}
+
+void PlaylistComponent::sort(String sortBy, bool asending) // name or ext or len
+{
+    // sort trackFiles & searchResults
+    // This declares a lambda, which can be called just like a function
+
+    if (sortBy == "name")
+    {
+        auto sortF = [asending](const File* lhs, const File* rhs)
+        {
+            String LName = lhs->getFileNameWithoutExtension();
+            String RName = rhs->getFileNameWithoutExtension();
+            return (asending) ? LName < RName : LName > RName;
+        };
+        std::sort(trackFiles.begin(), trackFiles.end(), sortF);
+        std::sort(searchResults.begin(), searchResults.end(), sortF);
+    }
+    if (sortBy == "ext")
+    {
+        auto sortF = [asending](const File* lhs, const File* rhs)
+        {
+            String LExt = lhs->getFileExtension().toUpperCase().toStdString();
+            String RExt = rhs->getFileExtension().toUpperCase().toStdString();
+            return (asending) ? LExt < RExt : LExt > RExt;
+        };
+        std::sort(trackFiles.begin(), trackFiles.end(), sortF);
+        std::sort(searchResults.begin(), searchResults.end(), sortF);
+    }
+    if (sortBy == "len")
+    {
+        auto sortF = [asending, this](File* lhs, File* rhs)
+        {
+            double LLen = getAudioFileDuration(lhs, &(tracksManager->formatManager));
+            double RLen = getAudioFileDuration(rhs, &(tracksManager->formatManager));
+            return (asending) ? LLen < RLen : LLen > RLen;
+        };
+        std::sort(trackFiles.begin(), trackFiles.end(), sortF);
+        std::sort(searchResults.begin(), searchResults.end(), sortF);
+    }
 }

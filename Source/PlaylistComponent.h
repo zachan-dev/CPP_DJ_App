@@ -12,6 +12,7 @@
 
 #include <JuceHeader.h>
 #include <vector>
+#include <algorithm>
 #include <string>
 #include <fstream>
 
@@ -51,6 +52,7 @@ public:
                             bool isRowSelected,
                             Component* existingComponentToUpdate) override;
     void deleteKeyPressed(int lastRowSelected) override;
+    void sortOrderChanged(int newSortColumnId, bool isForwards) override;
 
     //Implement Button::Listener
     //==============================================
@@ -65,6 +67,7 @@ public:
     bool writeToFile(File* file);
     void saveToTempFile(bool notificationOn = true);
     void loadFromTempFile();
+    void sort(String sortBy, bool asending);
 
     static const String TEMP_FILENAME;
     static const String TEMP_FILEEXT;
