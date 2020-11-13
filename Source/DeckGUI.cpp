@@ -71,6 +71,42 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
     speedSlider.setLookAndFeel(&speedSliderLookAndFeel);
     posSlider.setLookAndFeel(&posSliderLookAndFeel);
 
+    // customise buttons
+    {
+        Path p;
+        p.addTriangle({ -5, -8 }, { -5, 8 }, { 5, 0 });
+        playPath.setPath(p);
+        playPath.setFill(Colour(37, 211, 102)); // green
+    }
+    playButton.setImages(&playPath, nullptr, nullptr);
+    playButton.setTooltip(playButton.getButtonText());
+    {
+        Path p;
+        p.addRectangle(-3, -4, 2, 8);
+        p.addRectangle(1, -4, 2, 8);
+        pausePath.setPath(p);
+        pausePath.setFill(Colour(255, 87, 0)); // orange
+    }
+    pauseButton.setImages(&pausePath, nullptr, nullptr);
+    pauseButton.setTooltip(pauseButton.getButtonText());
+    {
+        Path p;
+        p.addRectangle(-4, -4, 8, 8);
+        stopPath.setPath(p);
+        stopPath.setFill(Colours::red); // red
+    }
+    stopButton.setImages(&stopPath, nullptr, nullptr);
+    stopButton.setTooltip(stopButton.getButtonText());
+    {
+        Path p;
+        p.addLineSegment(Line<float>(-4, -4, 4, 4), 2);
+        p.addLineSegment(Line<float>(4, -4, -4, 4), 2);
+        closePath.setPath(p);
+        closePath.setFill(Colours::white); // red
+    }
+    closeButton.setImages(&closePath, nullptr, nullptr);
+    closeButton.setTooltip(closeButton.getButtonText());
+
     // register listeners
     //closeButton listener is in Main
     playButton.addListener(this);
@@ -81,9 +117,9 @@ DeckGUI::DeckGUI(DJAudioPlayer* _player,
     speedSlider.addListener(this);
     posSlider.addListener(this);
 
-    playButton.setColour(TextButton::ColourIds::buttonColourId, Colour(37, 211, 102)); // green
-    pauseButton.setColour(TextButton::ColourIds::buttonColourId, Colour(255, 87, 0)); // orange
-    stopButton.setColour(TextButton::ColourIds::buttonColourId, Colour(205, 32, 31)); // red
+    //playButton.setColour(TextButton::ColourIds::buttonColourId, Colour(37, 211, 102)); // green
+    //pauseButton.setColour(TextButton::ColourIds::buttonColourId, Colour(255, 87, 0)); // orange
+    //stopButton.setColour(TextButton::ColourIds::buttonColourId, Colour(205, 32, 31)); // red
     closeButton.setColour(TextButton::ColourIds::buttonColourId, Colours::red); // red
 
     volSlider.setRange(0.0, 1.0); // set volume range limit
@@ -149,6 +185,7 @@ void DeckGUI::resized()
 // implement Button::Listener
 //==============================================================================
 void DeckGUI::buttonClicked(Button* button) {
+
     // close Button handler in TracksManager
     if (button == &playButton) {
         DBG("DeckGUI::buttonClicked Play button was clicked");

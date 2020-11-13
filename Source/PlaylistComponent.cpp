@@ -306,7 +306,7 @@ bool PlaylistComponent::pushFileToPlaylist(File* file)
     }
     if (!validFile) {
         AlertWindow::showMessageBox(AlertWindow::WarningIcon, ProjectInfo::projectName,
-            "Load file failed.\nPlease choose a file with suitable audio format.");
+            "Load file failed.\nPlease choose a file with suitable audio format.\n\nPath: " + file->getFullPathName());
     }
 
     bool existFile = file->exists();

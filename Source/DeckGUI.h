@@ -55,10 +55,17 @@ public:
     bool loadURL(URL& fileURL);
 
 private:
-    TextButton closeButton{ "X" };
-    TextButton playButton{ "PLAY" };
-    TextButton pauseButton{ "PAUSE" };
-    TextButton stopButton{ "STOP" };
+    TooltipWindow tooltipWindow;
+
+    DrawablePath closePath;
+    DrawablePath playPath;
+    DrawablePath pausePath;
+    DrawablePath stopPath;
+
+    DrawableButton closeButton{ "CLOSE", DrawableButton::ImageOnButtonBackground };
+    DrawableButton playButton{ "PLAY", DrawableButton::ImageOnButtonBackground };
+    DrawableButton pauseButton{ "PAUSE", DrawableButton::ImageOnButtonBackground };
+    DrawableButton stopButton{ "STOP", DrawableButton::ImageOnButtonBackground };
     ToggleButton loopButton{ "LOOP" };
 
     Slider volSlider;

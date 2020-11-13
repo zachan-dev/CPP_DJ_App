@@ -17,6 +17,16 @@ AddDeckGUI::AddDeckGUI()
     // In your constructor, you should add any child components, and
     // initialise any special settings that your component needs.
     addAndMakeVisible(addTrackButton);
+
+    {
+        Path p;
+        p.addLineSegment(Line<float>(0, -20, 0, 20), 10);
+        p.addLineSegment(Line<float>(-20, 0, 20, 0), 10);
+        addPath.setPath(p);
+        addPath.setFill(Colour(184, 212, 50));
+    }
+    addTrackButton.setImages(&addPath, nullptr, nullptr);
+    addTrackButton.setTooltip(addTrackButton.getButtonText());
 }
 
 AddDeckGUI::~AddDeckGUI()

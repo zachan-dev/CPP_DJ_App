@@ -93,20 +93,22 @@ void MusicLibrary::buttonClicked(Button* button)
 
         // Load
         bool loaded = false;
-        FileChooser chooser{ "Select a file..." };
+        FileChooser chooser{ "Select file(s)..." };
         do {
-            if (chooser.browseForFileToOpen()) // will return true if user choose >= 1 files
+            if (chooser.browseForMultipleFilesToOpen()) // will return true if user choose >= 1 files
             {
-                File* file = new File(chooser.getResult());
-                if (playlistComponent.pushFileToPlaylist(file)) {
-                    // success
-                    playlistComponent.refresh(); // refresh the list
-                    loaded = true;
-                    break; // break the do loop
+                for (auto& chooserRes : chooser.getResults())
+                {
+                    File* file = new File(chooserRes);
+                    if (playlistComponent.pushFileToPlaylist(file)) {
+                        // success
+                        playlistComponent.refresh(); // refresh the list
+                        loaded = true;
+                    }
                 }
             }
-            else break; // break the do loop if cancwel
-        } while (true);
+            else break; // break the do loop if cancel
+        } while (!loaded);
 
         if (loaded) {
             saveToTempFile();
