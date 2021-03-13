@@ -21,7 +21,17 @@ public:
     AddDeckGUI();
     ~AddDeckGUI();
 
+    /**
+    * Overrides default paint graphics function
+    * @param  {Graphics&}
+    * @return
+    */
     void paint (Graphics&) override;
+    /**
+    * Overrides default window resized event handler function
+    * @param
+    * @return
+    */
     void resized() override;
     
     friend class TracksManager;

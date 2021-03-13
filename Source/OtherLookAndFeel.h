@@ -15,5 +15,10 @@
 class OtherLookAndFeel : public LookAndFeel_V4
 {
 public:
+    /**
+    * Constructor: LookAndFeel for sliders in DeckGUI
+    * @param
+    * @return
+    */
     OtherLookAndFeel(Colour rotarySliderOutlineColour, Colour rotarySliderFillColour, Colour thumbColour);
 };

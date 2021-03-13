@@ -31,27 +31,74 @@ public:
             int trackID);
     ~DeckGUI();
 
+    /**
+    * Overrides default paint graphics function
+    * @param  {Graphics&}
+    * @return
+    */
     void paint (Graphics&) override;
+    /**
+    * Overrides default window resized event handler function
+    * @param
+    * @return
+    */
     void resized() override;
 
     // implement Button::Listener
     //==============================================================================
+    /**
+    * Overrides default button onclick event handler function
+    * @param  {Button*} button
+    * @return
+    */
     void buttonClicked(Button* button) override;
 
     // implement Slider::Listener
     //==============================================================================
+    /**
+    * Overrides default slider valueChanged event handler function
+    * @param  {Slider*} slider
+    * @return
+    */
     void sliderValueChanged(Slider* slider) override;
 
     // implement FileDragAndDropTarget
     //==============================================================================
+    /**
+    * Overrides default file draggedTo event trigger function
+    * @param  {StringArray&} files : files being mouse dragged
+    * @return {bool} : whether filesDropped event handler should be triggered by the input files
+    */
     bool isInterestedInFileDrag(const StringArray& files) override;
+    /**
+    * Overrides default files dropped event handler function
+    * @param  {StringArray*} files : interested files dropped
+    * @param  {int} x : drop location's x coordinate
+    * @param {int} y : drop location's y coordinate
+    * @return
+    */
     void filesDropped(const StringArray& files, int x, int y) override;
 
     // implement Timer
     //==============================================================================
+    /**
+    * Overrides default timer callback function to synchronise waveform display with the audio playback 
+    * @param
+    * @return
+    */
     void timerCallback() override;
 
+    /**
+    * Resets all GUI components to their initial states
+    * @param
+    * @return
+    */
     void reset();
+    /**
+    * Resets all GUI components to their initial states
+    * @param {URL&} fileURL : file path to be loaded into the deck
+    * @return {bool} : is file loading to waveform and audio player successful
+    */
     bool loadURL(URL& fileURL);
 
 private:

@@ -22,10 +22,31 @@ public:
     ~Track();
 
     //==============================================================================
+    /**
+    * Overrides default prepareToPlay function, to prepare the DJAudioPlayer to play
+    * @param {int} samplesPerBlockExpected
+    * @param {double} sampleRate
+    * @return
+    */
     void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override;
+    /**
+    * Overrides default getNextAudioBlock function, to trigger the DJAudioPlayer's getNextAudioBlock function
+    * @param {AudioSourceChannelInfo&} bufferToFill
+    * @return
+    */
     void getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill) override;
+    /**
+    * Overrides default releaseResources function, to trigger the DJAudioPlayer's releaseResources function
+    * @param
+    * @return
+    */
     void releaseResources() override;
 
+    /**
+    * Resets the track to its initial state
+    * @param
+    * @return
+    */
     void reset();
 
 private:

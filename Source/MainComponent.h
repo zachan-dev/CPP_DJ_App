@@ -29,14 +29,45 @@ public:
     ~MainComponent();
 
     //==============================================================================
+    /**
+    * Overrides default prepareToPlay function, to prepare tracksManager to play
+    * @param {int} samplesPerBlockExpected
+    * @param {double} sampleRate
+    * @return
+    */
     void prepareToPlay (int samplesPerBlockExpected, double sampleRate) override;
+    /**
+    * Overrides default getNextAudioBlock function, to trigger tracksManager's getNextAudioBlock function
+    * @param {AudioSourceChannelInfo&} bufferToFill
+    * @return
+    */
     void getNextAudioBlock (const AudioSourceChannelInfo& bufferToFill) override;
+    /**
+    * Overrides default releaseResources function, to release resources on deletion
+    * @param
+    * @return
+    */
     void releaseResources() override;
 
     //==============================================================================
+    /**
+    * Overrides default paint graphics function
+    * @param  {Graphics&}
+    * @return
+    */
     void paint (Graphics& g) override;
+    /**
+    * Overrides default window resized event handler function
+    * @param
+    * @return
+    */
     void resized() override;
 
+    /**
+    * Show welcome message on startup
+    * @param
+    * @return
+    */
     void showWelcomeMessageBox();
 
 private:

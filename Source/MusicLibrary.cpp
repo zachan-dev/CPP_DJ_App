@@ -186,7 +186,7 @@ void MusicLibrary::textEditorTextChanged(TextEditor& textEditor)
 
 void MusicLibrary::saveToTempFile()
 {
-     playlistComponent.saveToTempFile();
+    playlistComponent.saveToTempFile();
 }
 
 void MusicLibrary::loadFromTempFile()
