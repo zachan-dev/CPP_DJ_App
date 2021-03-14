@@ -22,7 +22,6 @@ Written & Developed by [Zach, Siu Him CHAN](https://www.linkedin.com/in/zach-cha
 - [Introduction](#introduction)
   - [What is OtoDecks?](#what-is-otodecks)
   - [Video Tutorial](#video-tutorial)
-  - [How to build OtoDecks](#how-to-build-otodecks)
   - [How to run OtoDecks](#how-to-run-otodecks)
   - [App Interface](#app-interface)
   - [Custom Components Hierarchy](#custom-components-hierarchy)
@@ -57,10 +56,7 @@ OtoDecks is a DJ application for DJs to mix their music using multiple tracks. B
 The music library component allows users to manage a library of music within the application. Users can search the music library and load music from it into the decks. It also persists between application loads, by storing the state of the music library in a data file. Users are also able to import and export any extra data files, so they can store and load different playlists.
 
 ### Video Tutorial
-Link: YT
-
-### How to build OtoDecks
-1. 
+Youtube link: https://youtu.be/u2S1ybyRJpM [OtoDecks - A Simple yet powerful DJing Application]
 
 ### How to run OtoDecks
 1. Goto Release folder
