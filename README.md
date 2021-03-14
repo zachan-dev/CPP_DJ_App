@@ -56,7 +56,9 @@ OtoDecks is a DJ application for DJs to mix their music using multiple tracks. B
 The music library component allows users to manage a library of music within the application. Users can search the music library and load music from it into the decks. It also persists between application loads, by storing the state of the music library in a data file. Users are also able to import and export any extra data files, so they can store and load different playlists.
 
 ### Video Tutorial
-Youtube link: https://youtu.be/u2S1ybyRJpM [OtoDecks - A Simple yet powerful DJing Application]
+Video Title: **[OtoDecks - A Simple yet powerful DJing Application](https://youtu.be/u2S1ybyRJpM)**
+
+Youtube link: **[https://youtu.be/u2S1ybyRJpM](https://youtu.be/u2S1ybyRJpM)**
 
 ### How to run OtoDecks
 1. Goto Release folder
