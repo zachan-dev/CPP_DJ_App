@@ -1,10 +1,6 @@
 <h1 align="center">
   <a href="#"><img src="Source/djicon.svg" alt="DJAppIcon" width="200"></a>
   <br>
-  Object-Oriented Programming
-  <br>
-  Coursework for Endterm
-  <br>
   Otodecks
   <br>
   Report
