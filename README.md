@@ -7,7 +7,7 @@
   <br>
 </h1>
 
-Written & Developed by [Zach, Siu Him CHAN](https://www.linkedin.com/in/zach-chan-hk/)
+Written & Developed by [Zach CHAN](https://www.linkedin.com/in/zach-chan-hk/)
 (SN : **190340436**)
 
 ## Table of Contents
